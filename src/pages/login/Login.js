@@ -33,7 +33,7 @@ function Login(props) {
   const onLogin = () => {
     setGlobalSpinner(true);
     service({
-      method: "get",
+      method: "post",
       url: "/auth",
       data: {
         username: loginValue,
