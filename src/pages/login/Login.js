@@ -69,7 +69,7 @@ function Login(props) {
         <div className={classes.form}>
           <React.Fragment>
             <TextField
-              id="email"
+              id="username"
               InputProps={{
                 classes: {
                   underline: classes.textFieldUnderline,
@@ -79,8 +79,8 @@ function Login(props) {
               value={loginValue}
               onChange={(e) => setLoginValue(e.target.value)}
               margin="normal"
-              placeholder="Email Adress"
-              type="email"
+              placeholder="Username"
+              type="text"
               fullWidth
             />
             <TextField

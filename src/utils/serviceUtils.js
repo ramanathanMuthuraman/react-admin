@@ -2,7 +2,11 @@
 
 import axios from "axios";
 
-const client = axios.create({});
+const baseURL = "http://localhost:8080";
+
+const client = axios.create({
+  baseURL,
+});
 
 const request = function (options) {
   const onSuccess = function (response) {

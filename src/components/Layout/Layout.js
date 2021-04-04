@@ -41,7 +41,7 @@ function Layout(props) {
   return (
     <div className={classes.root}>
       <>
-        <Header history={props.history} />
+        <Header userName={userProps.userName} history={props.history} />
         <Sidebar allowedRoutes={allowedRoutes} />
         <div
           className={classnames(classes.content, {
