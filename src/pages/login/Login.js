@@ -3,6 +3,7 @@ import { Grid, Typography, Button, TextField } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import { getAllowedRoutes } from "../../utils/routeUtils";
 import PrivateRoutesConfig from "../../config/privateRoutesConfig";
+import { urlList } from "../../config/urlConfig";
 
 // styles
 import useStyles from "./styles";
@@ -34,7 +35,7 @@ function Login(props) {
     setGlobalSpinner(true);
     service({
       method: "post",
-      url: "/auth",
+      url: urlList.login,
       data: {
         username: loginValue,
         password: passwordValue,
@@ -43,7 +44,8 @@ function Login(props) {
       .then((response) => {
         const { token, user = {} } = response;
         sessionStorage.setItem("id_token", token);
-        userDispatch({ type: "LOGIN_SUCCESS", payload: user });
+        sessionStorage.setItem("user_info", JSON.stringify(user));
+        userDispatch({ type: "LOGIN_SUCCESS", payload: { user } });
         const allowedRoutes = getAllowedRoutes(
           PrivateRoutesConfig,
           user.roleName,

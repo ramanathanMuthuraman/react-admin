@@ -26,10 +26,11 @@ export default function Dashboard(props) {
       <Grid container spacing={4}>
         <Grid item xs={12}>
           <Widget
-            title="Support Requests"
+            title=""
             upperTitle
             noBodyPadding
             bodyClass={classes.tableWidget}
+            disableWidgetMenu
           >
             <Table data={mock.table} />
           </Widget>

@@ -8,8 +8,8 @@ var UserDispatchContext = React.createContext();
 const initialState = {
   token: "",
   tokenExpiryTime: 0,
-  user: {},
-  isAuthenticated: false,
+  user: JSON.parse(sessionStorage.getItem("user_info")) || {},
+  isAuthenticated: !!sessionStorage.getItem("id_token"),
 };
 
 function userReducer(state, action) {
@@ -17,9 +17,9 @@ function userReducer(state, action) {
     case "LOGIN_SUCCESS":
       return { ...state, ...action.payload, isAuthenticated: true };
     case "SIGN_OUT_SUCCESS":
-      return initialState;
+      return state;
     case "LOGIN_FAILURE":
-      return initialState;
+      return state;
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
@@ -27,9 +27,7 @@ function userReducer(state, action) {
 }
 
 function UserProvider({ children }) {
-  var [state, dispatch] = React.useReducer(userReducer, {
-    isAuthenticated: !!sessionStorage.getItem("id_token"),
-  });
+  var [state, dispatch] = React.useReducer(userReducer, initialState);
 
   return (
     <UserStateContext.Provider value={state}>
@@ -56,38 +54,11 @@ function useUserDispatch() {
   return context;
 }
 
-export { UserProvider, useUserState, useUserDispatch, loginUser, signOut };
-
-// ###########################################################
-
-function loginUser(dispatch, login, password, history, setIsLoading, setError) {
-  setError(false);
-  setIsLoading(true);
-  // useFetch({
-  //   method: "get",
-  //   url: "/path/",
-  // });
-  // if (!!login && !!password) {
-  //   setTimeout(() => {
-  //     sessionStorage.setItem("id_token", 1);
-  //     setError(null);
-  //     setIsLoading(false);
-  //     dispatch({ type: "LOGIN_SUCCESS" });
-  //     const allowedRoutes = getAllowedRoutes(
-  //       PrivateRoutesConfig,
-  //       "SUPER_ADMIN",
-  //     );
-  //     history.push(allowedRoutes[0].path);
-  //   }, 2000);
-  // } else {
-  //   dispatch({ type: "LOGIN_FAILURE" });
-  //   setError(true);
-  //   setIsLoading(false);
-  // }
-}
-
 function signOut(dispatch, history) {
   sessionStorage.removeItem("id_token");
+  sessionStorage.removeItem("user_info");
   dispatch({ type: "SIGN_OUT_SUCCESS" });
   history.push("/login");
 }
+
+export { UserProvider, useUserState, useUserDispatch, signOut };

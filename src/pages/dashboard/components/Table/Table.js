@@ -1,48 +1,134 @@
 import React from "react";
+import { useTable, useRowSelect } from "react-table";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   Table,
   TableRow,
   TableHead,
   TableBody,
   TableCell,
-  Chip
 } from "@material-ui/core";
-import useStyles from "../../styles";
+import Checkbox from "@material-ui/core/Checkbox";
 
-const states = {
-  sent: "success",
-  pending: "warning",
-  declined: "secondary",
-};
+const data = [
+  { firstName: "jane", lastName: "doe", age: 20 },
+  { firstName: "john", lastName: "smith", age: 21 },
+];
 
-export default function TableComponent({ data }) {
+const columns = [
+  {
+    Header: "First Name",
+    accessor: "firstName",
+  },
+  {
+    Header: "Last Name",
+    accessor: "lastName",
+  },
+  {
+    Header: "Age",
+    accessor: "age",
+  },
+];
+
+const useStyles = makeStyles({
+  checkboxCell: {
+    width: 100,
+  },
+});
+
+const IndeterminateCheckbox = React.forwardRef(
+  ({ indeterminate, ...rest }, ref) => {
+    const defaultRef = React.useRef();
+    const resolvedRef = ref || defaultRef;
+    React.useEffect(() => {
+      resolvedRef.current.indeterminate = indeterminate;
+    }, [resolvedRef, indeterminate]);
+    return (
+      <>
+        <Checkbox indeterminate={indeterminate} ref={resolvedRef} {...rest} />
+      </>
+    );
+  },
+);
+
+export default function TableComponent() {
   const classes = useStyles();
-  var keys = Object.keys(data[0]).map(i => i.toUpperCase());
-  keys.shift(); // delete "id" key
+  const {
+    getTableProps,
+    headerGroups,
+    getTableBodyProps,
+    rows,
+    prepareRow,
+    selectedFlatRows,
+    state: { selectedRowIds },
+  } = useTable(
+    {
+      columns,
+      data,
+    },
+    useRowSelect,
+    (hooks) => {
+      hooks.visibleColumns.push((columns) => [
+        // Let's make a column for selection
+        {
+          id: "selection",
+          // The header can use the table's getToggleAllRowsSelectedProps method
+          // to render a checkbox
+          Header: ({ getToggleAllRowsSelectedProps }) => {
+            return (
+              <div>
+                <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+              </div>
+            );
+          },
+          // The cell can use the individual row's getToggleRowSelectedProps method
+          // to the render a checkbox
+          Cell: ({ row }) => (
+            <div>
+              <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+            </div>
+          ),
+        },
+        ...columns,
+      ]);
+    },
+  );
+
+  if (!data || data.length === 0) {
+    return null;
+  }
 
   return (
-    <Table className="mb-0">
+    <Table className="mb-0" {...getTableProps()}>
       <TableHead>
-        <TableRow>
-          {keys.map(key => (
-            <TableCell key={key}>{key}</TableCell>
-          ))}
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {data.map(({ id, name, email, product, price, date, city, status }) => (
-          <TableRow key={id}>
-            <TableCell className="pl-3 fw-normal">{name}</TableCell>
-            <TableCell>{email}</TableCell>
-            <TableCell>{product}</TableCell>
-            <TableCell>{price}</TableCell>
-            <TableCell>{date}</TableCell>
-            <TableCell>{city}</TableCell>
-            <TableCell>
-              <Chip label={status} classes={{root: classes[states[status.toLowerCase()]]}}/>
-            </TableCell>
+        {headerGroups.map((headerGroup) => (
+          <TableRow {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map((column, index) => (
+              <TableCell
+                className={index || classes.checkboxCell}
+                {...column.getHeaderProps()}
+              >
+                {column.render("Header")}
+              </TableCell>
+            ))}
           </TableRow>
         ))}
+      </TableHead>
+      <TableBody {...getTableBodyProps()}>
+        {rows.map((row, i) => {
+          prepareRow(row);
+          return (
+            <TableRow {...row.getRowProps()}>
+              {row.cells.map((cell) => {
+                return (
+                  <TableCell {...cell.getCellProps()}>
+                    {cell.render("Cell")}
+                  </TableCell>
+                );
+              })}
+            </TableRow>
+          );
+        })}
       </TableBody>
     </Table>
   );

@@ -1,11 +1,10 @@
 // https://gist.github.com/sheharyarn/7f43ef98c5363a34652e60259370d2cb
 
 import axios from "axios";
-
-const baseURL = "http://localhost:8080";
+import { BASE_URL } from "../config/urlConfig";
 
 const client = axios.create({
-  baseURL,
+  baseURL: BASE_URL,
 });
 
 const request = function (options) {

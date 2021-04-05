@@ -33,15 +33,14 @@ function Layout(props) {
   var layoutState = useLayoutState();
   const userProps = useUserState();
 
-  const allowedRoutes = getAllowedRoutes(
-    PrivateRoutesConfig,
-    userProps.roleName,
-  );
+  const { user = {} } = userProps;
+
+  const allowedRoutes = getAllowedRoutes(PrivateRoutesConfig, user.roleName);
 
   return (
     <div className={classes.root}>
       <>
-        <Header userName={userProps.userName} history={props.history} />
+        <Header userName={user.userName} history={props.history} />
         <Sidebar allowedRoutes={allowedRoutes} />
         <div
           className={classnames(classes.content, {
