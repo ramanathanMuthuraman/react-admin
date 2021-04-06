@@ -31,13 +31,15 @@ const request = function (options) {
     return Promise.reject(error.response || error.message);
   };
   const token = sessionStorage.getItem("id_token");
+  const { headers, ...rest } = options;
   const defaultOptions = {
     headers: {
-      Authorization: token ? `Token ${token}` : "",
+      Authorization: token ? `Bearer ${token}` : "",
       "Content-Type": "application/json",
+      ...headers,
     },
   };
-  return client({ ...defaultOptions, ...options })
+  return client({ ...defaultOptions, ...rest })
     .then(onSuccess)
     .catch(onError);
 };
