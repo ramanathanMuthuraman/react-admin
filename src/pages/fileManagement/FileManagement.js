@@ -5,7 +5,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { useSnackbar } from "notistack";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import { urlList } from "../../config/urlConfig";
+import { BASE_URL, urlList } from "../../config/urlConfig";
 import service from "../../utils/serviceUtils";
 
 // styles
@@ -59,6 +59,10 @@ export default function FileManagement(props) {
 
   const onFileChange = (files) => {
     setSelectedFile(files);
+  };
+
+  const downloadTeamReport = () => {
+    window.open(`${BASE_URL}${urlList.alertExportForTeam}`);
   };
 
   return (
@@ -118,6 +122,7 @@ export default function FileManagement(props) {
                       className={classes.action}
                       variant="contained"
                       color="primary"
+                      onClick={downloadTeamReport}
                     >
                       Download
                     </Button>
