@@ -29,7 +29,7 @@ const options = [
 
 export default function FileManagement(props) {
   var classes = useStyles();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const [selectedOption, setSelectedOption] = React.useState(options[0].id);
   const [selectedFile, setSelectedFile] = React.useState([]);
   const handleChange = (event) => {
@@ -90,7 +90,9 @@ export default function FileManagement(props) {
                 >
                   {options.map((option) => {
                     return (
-                      <MenuItem value={option.id}>{option.label}</MenuItem>
+                      <MenuItem key={option.id} value={option.id}>
+                        {option.label}
+                      </MenuItem>
                     );
                   })}
                 </Select>
@@ -101,7 +103,7 @@ export default function FileManagement(props) {
                     <FileUpload onChange={onFileChange} />
                     <>
                       {selectedFile.map((file) => {
-                        return <span>{file.name}</span>;
+                        return <span key="file.name">{file.name}</span>;
                       })}
                     </>
                     <Button

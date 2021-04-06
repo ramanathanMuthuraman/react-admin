@@ -1,21 +1,22 @@
 import Roles from "./roles";
-import UserManagement from "../pages/UserManagement/UserManagement";
+// import UserManagement from "../pages/UserManagement/UserManagement";
 import FileManagement from "../pages/fileManagement/FileManagement";
+import AlertManagement from "../pages/alertManagement/AlertManagement";
 import {
-  Home as HomeIcon,
+  // Home as HomeIcon,
   InsertDriveFile as InsertDriveFileIcon,
-  BorderAll as TableIcon,
+  Warning as WarningIcon,
 } from "@material-ui/icons";
 
 const routes = [
-  {
-    component: UserManagement,
-    path: "/app/user",
-    label: "User management",
-    exact: true,
-    permission: [Roles.SUPER_ADMIN],
-    icon: HomeIcon,
-  },
+  // {
+  //   component: UserManagement,
+  //   path: "/app/user",
+  //   label: "User management",
+  //   exact: true,
+  //   permission: [Roles.SUPER_ADMIN],
+  //   icon: HomeIcon,
+  // },
   {
     component: FileManagement,
     path: "/app/file",
@@ -25,11 +26,11 @@ const routes = [
     icon: InsertDriveFileIcon,
   },
   {
-    component: FileManagement,
+    component: AlertManagement,
     path: "/app/alert",
-    label: "Alert",
-    permission: [Roles.GUEST],
-    icon: TableIcon,
+    label: "Alert Management",
+    permission: [Roles.SUPER_ADMIN],
+    icon: WarningIcon,
   },
 ];
 

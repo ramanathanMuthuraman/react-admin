@@ -10,26 +10,6 @@ import {
 } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 
-const data = [
-  { firstName: "jane", lastName: "doe", age: 20 },
-  { firstName: "john", lastName: "smith", age: 21 },
-];
-
-const columns = [
-  {
-    Header: "First Name",
-    accessor: "firstName",
-  },
-  {
-    Header: "Last Name",
-    accessor: "lastName",
-  },
-  {
-    Header: "Age",
-    accessor: "age",
-  },
-];
-
 const useStyles = makeStyles({
   checkboxCell: {
     width: 100,
@@ -51,7 +31,7 @@ const IndeterminateCheckbox = React.forwardRef(
   },
 );
 
-export default function TableComponent() {
+export default function TableComponent({ columns, data }) {
   const classes = useStyles();
   const {
     getTableProps,
@@ -59,8 +39,8 @@ export default function TableComponent() {
     getTableBodyProps,
     rows,
     prepareRow,
-    selectedFlatRows,
-    state: { selectedRowIds },
+    // selectedFlatRows,
+    // state: { selectedRowIds },
   } = useTable(
     {
       columns,
