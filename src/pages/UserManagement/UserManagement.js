@@ -5,18 +5,17 @@ import { Grid, Button } from "@material-ui/core";
 import useStyles from "./styles";
 
 // components
-import mock from "./mock";
 import Widget from "../../components/Widget/Widget";
 import PageTitle from "../../components/PageTitle/PageTitle";
-import Table from "./components/Table/Table";
+import Table from "../../components/Table/Table";
 
-export default function Dashboard(props) {
+export default function UserManagement(props) {
   var classes = useStyles();
 
   return (
     <>
       <PageTitle
-        title="Dashboard"
+        title="User"
         button={
           <Button variant="contained" size="medium" color="secondary">
             Latest Reports
@@ -32,7 +31,7 @@ export default function Dashboard(props) {
             bodyClass={classes.tableWidget}
             disableWidgetMenu
           >
-            <Table data={mock.table} />
+            <Table />
           </Widget>
         </Grid>
       </Grid>
