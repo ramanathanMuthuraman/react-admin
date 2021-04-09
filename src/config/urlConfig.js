@@ -5,6 +5,7 @@ const urlList = {
   alertUpload: "/alert/upload",
   alertExportForTeam: "/alert/export",
   alert: "/alert",
+  user: "/user",
 };
 
 export { BASE_URL, urlList };

@@ -10,8 +10,14 @@ import {
 } from "@material-ui/core";
 import { NOOP } from "../../constants/constants";
 
-export default function TableComponent({ columns, data, hooksCallback }) {
+export default function TableComponent({
+  columns,
+  data,
+  hooksCallback,
+  noDataText,
+}) {
   const hooksProp = hooksCallback || NOOP;
+  const noDataMessage = noDataText || "No records found";
   const {
     getTableProps,
     headerGroups,
@@ -30,7 +36,7 @@ export default function TableComponent({ columns, data, hooksCallback }) {
   );
 
   if (!data || data.length === 0) {
-    return null;
+    return <>{noDataMessage}</>;
   }
 
   return (

@@ -1,40 +1,33 @@
-import React from "react";
-import { Grid, Button } from "@material-ui/core";
+// https://medium.com/swlh/defining-nested-routes-with-react-router-8f140e87b360
 
-// styles
-import useStyles from "./styles";
+import React from "react";
+import { Route, Switch } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
 
 // components
-import Widget from "../../components/Widget/Widget";
 import PageTitle from "../../components/PageTitle/PageTitle";
-import Table from "../../components/Table/Table";
+import UserGeneration from "./UserGeneration.js";
+import UserListing from "./UserListing";
 
-export default function UserManagement(props) {
-  var classes = useStyles();
+const UserManagement = (props) => {
+  let { path, url } = useRouteMatch();
 
   return (
     <>
-      <PageTitle
-        title="User"
-        button={
-          <Button variant="contained" size="medium" color="secondary">
-            Latest Reports
-          </Button>
-        }
-      />
-      <Grid container spacing={4}>
-        <Grid item xs={12}>
-          <Widget
-            title=""
-            upperTitle
-            noBodyPadding
-            bodyClass={classes.tableWidget}
-            disableWidgetMenu
-          >
-            <Table />
-          </Widget>
-        </Grid>
-      </Grid>
+      <PageTitle title="User management" />
+      <Switch>
+        <Route exact path={path}>
+          <UserListing url={url} />
+        </Route>
+        <Route path={`${path}/create`}>
+          <UserGeneration />
+        </Route>
+        <Route path={`${path}/edit`}>
+          <>Hi</>
+        </Route>
+      </Switch>
     </>
   );
-}
+};
+
+export default UserManagement;

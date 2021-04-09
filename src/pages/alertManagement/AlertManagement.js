@@ -66,17 +66,14 @@ export default function AlertManagement(props) {
           <Widget
             title=""
             upperTitle
-            noBodyPadding
             bodyClass={classes.tableWidget}
             disableWidgetMenu
           >
-            {alertsData.length !== 0 && (
-              <Table
-                columns={columns}
-                data={alertsData}
-                hooksCallback={hooksCallback}
-              />
-            )}
+            <Table
+              columns={columns}
+              data={alertsData}
+              hooksCallback={hooksCallback}
+            />
           </Widget>
         </Grid>
       </Grid>
