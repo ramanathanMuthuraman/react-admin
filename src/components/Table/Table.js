@@ -1,6 +1,6 @@
 import React from "react";
 import { useTable, useRowSelect } from "react-table";
-import { makeStyles } from "@material-ui/core/styles";
+// import { makeStyles } from "@material-ui/core/styles";
 import {
   Table,
   TableRow,
@@ -8,13 +8,10 @@ import {
   TableBody,
   TableCell,
 } from "@material-ui/core";
-
-const NOOP = () => {};
-const useStyles = makeStyles({});
+import { NOOP } from "../../constants/constants";
 
 export default function TableComponent({ columns, data, hooksCallback }) {
   const hooksProp = hooksCallback || NOOP;
-  const classes = useStyles();
   const {
     getTableProps,
     headerGroups,
