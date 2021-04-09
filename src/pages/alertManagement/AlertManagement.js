@@ -10,8 +10,9 @@ import useStyles from "./styles";
 // components
 import Widget from "../../components/Widget/Widget";
 import PageTitle from "../../components/PageTitle/PageTitle";
-import Table from "../../components/Table/TableWithSelection";
+import Table from "../../components/Table/Table.js";
 import columns from "./columns";
+import IndeterminateCheckbox from "../../components/IndeterminateCheckbox/IndeterminateCheckbox";
 
 export default function AlertManagement(props) {
   var classes = useStyles();
@@ -30,6 +31,33 @@ export default function AlertManagement(props) {
       });
   }, [enqueueSnackbar]);
 
+  const hooksCallback = (hooks) => {
+    hooks.visibleColumns.push((columns) => [
+      // Let's make a column for selection
+      {
+        id: "selection",
+        width: 100,
+        // The header can use the table's getToggleAllRowsSelectedProps method
+        // to render a checkbox
+        Header: ({ getToggleAllRowsSelectedProps }) => {
+          return (
+            <div>
+              <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+            </div>
+          );
+        },
+        // The cell can use the individual row's getToggleRowSelectedProps method
+        // to the render a checkbox
+        Cell: ({ row }) => (
+          <div>
+            <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+          </div>
+        ),
+      },
+      ...columns,
+    ]);
+  };
+
   return (
     <>
       <PageTitle title="Alert management" />
@@ -43,7 +71,11 @@ export default function AlertManagement(props) {
             disableWidgetMenu
           >
             {alertsData.length !== 0 && (
-              <Table columns={columns} data={alertsData} />
+              <Table
+                columns={columns}
+                data={alertsData}
+                hooksCallback={hooksCallback}
+              />
             )}
           </Widget>
         </Grid>
