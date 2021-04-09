@@ -1,3 +1,5 @@
+import DateRender from "../../components/DateRender/DateRender";
+
 const columns = [
   {
     Header: "Id",
@@ -22,6 +24,9 @@ const columns = [
   {
     Header: "Created",
     accessor: "created",
+    Cell: (props) => {
+      return <DateRender value={props.value} />;
+    },
   },
   {
     Header: "Status",
@@ -46,6 +51,9 @@ const columns = [
   {
     Header: "Date Created",
     accessor: "dateCreated",
+    Cell: (props) => {
+      return <DateRender value={props.value} />;
+    },
   },
 ];
 
