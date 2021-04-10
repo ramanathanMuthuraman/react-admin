@@ -17,9 +17,9 @@ function userReducer(state, action) {
     case "LOGIN_SUCCESS":
       return { ...state, ...action.payload, isAuthenticated: true };
     case "SIGN_OUT_SUCCESS":
-      return state;
+      return { ...state, user: {}, isAuthenticated: false };
     case "LOGIN_FAILURE":
-      return state;
+      return { ...state, user: {}, isAuthenticated: false };
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
