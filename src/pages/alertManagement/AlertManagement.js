@@ -128,7 +128,6 @@ export default function AlertManagement() {
   const onRowSelectionChange = (selectedItems) => {
     setSelectedRows(selectedItems);
   };
-  console.log(selectedRows);
 
   const handleChange = (event) => {
     setSelectedUser(event.target.value);

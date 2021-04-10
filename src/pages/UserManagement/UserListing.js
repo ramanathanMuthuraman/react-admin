@@ -30,13 +30,6 @@ const UserListing = ({ url }) => {
   }, [enqueueSnackbar]);
   return (
     <>
-      <div className={classes.actionContainer}>
-        <Link className={classes.customLink} to={`${url}/create`}>
-          <Button variant="contained" color="primary" onClick={() => {}}>
-            Add user
-          </Button>
-        </Link>
-      </div>
       <Grid container spacing={4}>
         <Grid item xs={12}>
           <Widget
@@ -45,6 +38,11 @@ const UserListing = ({ url }) => {
             bodyClass={classes.tableWidget}
             disableWidgetMenu
           >
+            <Link className={classes.customLink} to={`${url}/create`}>
+              <Button variant="contained" color="primary" onClick={() => {}}>
+                Add user
+              </Button>
+            </Link>
             <Table columns={columns} data={userData} />
           </Widget>
         </Grid>
