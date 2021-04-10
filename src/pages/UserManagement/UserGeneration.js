@@ -84,12 +84,12 @@ export default function UserGeneration(props) {
   const formik = useFormik({
     initialValues: {
       username: "",
-      firstName: "",
-      lastName: "",
-      middleName: "",
-      employeeId: "",
+      firstname: "",
+      lastname: "",
+      middlename: "",
+      empId: "",
       department: "",
-      mobileNo: "",
+      mobileno: "",
       email: "",
     },
     onSubmit: (values) => {
@@ -129,7 +129,7 @@ export default function UserGeneration(props) {
                     fullWidth
                     autoComplete="given-name"
                     onChange={formik.handleChange}
-                    value={formik.values.firstName}
+                    value={formik.values.firstname}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -151,7 +151,7 @@ export default function UserGeneration(props) {
                     fullWidth
                     autoComplete="given-name"
                     onChange={formik.handleChange}
-                    value={formik.values.middleName}
+                    value={formik.values.middlename}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -162,7 +162,7 @@ export default function UserGeneration(props) {
                     fullWidth
                     autoComplete="employee-id"
                     onChange={formik.handleChange}
-                    value={formik.values.employeeId}
+                    value={formik.values.empId}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -173,7 +173,7 @@ export default function UserGeneration(props) {
                     fullWidth
                     autoComplete="Department"
                     onChange={formik.handleChange}
-                    value={formik.values.employeeId}
+                    value={formik.values.department}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -184,7 +184,7 @@ export default function UserGeneration(props) {
                     fullWidth
                     autoComplete="mobile-number"
                     onChange={formik.handleChange}
-                    value={formik.values.mobileNo}
+                    value={formik.values.mobileno}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
