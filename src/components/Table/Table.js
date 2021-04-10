@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTable, useRowSelect } from "react-table";
 // import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -15,8 +15,10 @@ export default function TableComponent({
   data,
   hooksCallback,
   noDataText,
+  onRowSelectionChange,
 }) {
   const hooksProp = hooksCallback || NOOP;
+  const rowSelectionChange = onRowSelectionChange || NOOP;
   const noDataMessage = noDataText || "No records found";
   const {
     getTableProps,
@@ -24,7 +26,7 @@ export default function TableComponent({
     getTableBodyProps,
     rows,
     prepareRow,
-    // selectedFlatRows,
+    selectedFlatRows,
     // state: { selectedRowIds },
   } = useTable(
     {
@@ -34,6 +36,11 @@ export default function TableComponent({
     useRowSelect,
     hooksProp,
   );
+
+  useEffect(() => {
+    rowSelectionChange(selectedFlatRows);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedFlatRows]);
 
   if (!data || data.length === 0) {
     return <>{noDataMessage}</>;
