@@ -27,7 +27,7 @@ export default function AlertManagement() {
   const [selectedUser, setSelectedUser] = React.useState("");
   const [selectedRows, setSelectedRows] = useState([]);
   const [togglePopup, setTogglePopup] = useState(false);
-  useEffect(() => {
+  const getAlerts = () => {
     service({
       method: "get",
       url: urlList.alert,
@@ -38,6 +38,9 @@ export default function AlertManagement() {
       .catch(function () {
         enqueueSnackbar("Failed to fetch data", { variant: "error" });
       });
+  };
+  useEffect(() => {
+    getAlerts();
     service({
       method: "get",
       url: urlList.user,
@@ -48,6 +51,7 @@ export default function AlertManagement() {
       .catch(function () {
         enqueueSnackbar("Failed to fetch data", { variant: "error" });
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enqueueSnackbar]);
 
   const assignUser = () => {
@@ -56,13 +60,14 @@ export default function AlertManagement() {
       url: `${urlList.alert}/${selectedUser}/assign`,
       data: selectedRows.map((row) => row.values.alertId),
     })
-      .then(function (response = {}) {
+      .then(function () {
         enqueueSnackbar("Assigned successfully", {
           variant: "success",
           preventDuplicate: true,
         });
         setSelectedUser("");
         setTogglePopup(false);
+        getAlerts();
       })
       .catch(function () {
         enqueueSnackbar("Failed to assign", {
@@ -143,7 +148,7 @@ export default function AlertManagement() {
         scroll="paper"
       >
         <DialogTitle id="simple-dialog-title">Assign user</DialogTitle>
-        <DialogContent>
+        <DialogContent className={classes.dialogContent}>
           <Grid
             container
             direction="column"
