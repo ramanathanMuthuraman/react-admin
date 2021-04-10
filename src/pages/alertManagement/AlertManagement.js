@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Button } from "@material-ui/core";
+import { Grid, Button, Select, MenuItem } from "@material-ui/core";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -23,6 +23,8 @@ export default function AlertManagement() {
   var classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const [alertsData, setAlertsData] = useState([]);
+  const [userData, setUserData] = React.useState([]);
+  const [selectedUser, setSelectedUser] = React.useState("");
   const [selectedRows, setSelectedRows] = useState([]);
   const [togglePopup, setTogglePopup] = useState(false);
   useEffect(() => {
@@ -36,7 +38,39 @@ export default function AlertManagement() {
       .catch(function () {
         enqueueSnackbar("Failed to fetch data", { variant: "error" });
       });
+    service({
+      method: "get",
+      url: urlList.user,
+    })
+      .then(function (response = {}) {
+        setUserData(response || []);
+      })
+      .catch(function () {
+        enqueueSnackbar("Failed to fetch data", { variant: "error" });
+      });
   }, [enqueueSnackbar]);
+
+  const assignUser = () => {
+    service({
+      method: "post",
+      url: `${urlList.alert}/${selectedUser}/assign`,
+      data: selectedRows.map((row) => row.values.alertId),
+    })
+      .then(function (response = {}) {
+        enqueueSnackbar("Assigned successfully", {
+          variant: "success",
+          preventDuplicate: true,
+        });
+        setSelectedUser("");
+        setTogglePopup(false);
+      })
+      .catch(function () {
+        enqueueSnackbar("Failed to assign", {
+          variant: "error",
+          preventDuplicate: true,
+        });
+      });
+  };
 
   const hooksCallback = (hooks) => {
     hooks.visibleColumns.push((columns) => [
@@ -96,6 +130,10 @@ export default function AlertManagement() {
   };
   console.log(selectedRows);
 
+  const handleChange = (event) => {
+    setSelectedUser(event.target.value);
+  };
+
   return (
     <>
       <PageTitle title="Alert management" />
@@ -125,16 +163,40 @@ export default function AlertManagement() {
             </Grid>
 
             <Grid item>
-              <DialogContentText>to </DialogContentText>
+              <DialogContentText>to</DialogContentText>
+            </Grid>
+            <Grid item>
+              <Select
+                displayEmpty
+                labelId="demo-simple-select-label"
+                id="demo-simple-select-required"
+                value={selectedUser}
+                onChange={handleChange}
+                fullWidth
+              >
+                <MenuItem value="" disabled>
+                  Select user
+                </MenuItem>
+                {userData.map((user) => {
+                  return (
+                    <MenuItem key={user.username} value={user.username}>
+                      {user.username}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
             </Grid>
           </Grid>
         </DialogContent>
         <DialogActions>
           <Button
+            variant="contained"
+            color="primary"
             data-testid="notification-submit-button"
-            onClick={handleClose}
+            onClick={assignUser}
+            disabled={selectedUser === ""}
           >
-            Ok
+            Assign
           </Button>
         </DialogActions>
       </Dialog>

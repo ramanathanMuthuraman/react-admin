@@ -88,6 +88,7 @@ export default function UserGeneration(props) {
       lastName: "",
       middleName: "",
       employeeId: "",
+      department: "",
       mobileNo: "",
       email: "",
     },
@@ -122,8 +123,8 @@ export default function UserGeneration(props) {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    id="firstName"
-                    name="firstName"
+                    id="firstname"
+                    name="firstname"
                     label="First name"
                     fullWidth
                     autoComplete="given-name"
@@ -133,8 +134,8 @@ export default function UserGeneration(props) {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    id="lastName"
-                    name="lastName"
+                    id="lastname"
+                    name="lastname"
                     label="Last name"
                     fullWidth
                     autoComplete="given-name"
@@ -144,8 +145,8 @@ export default function UserGeneration(props) {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    id="middleName"
-                    name="middleName"
+                    id="middlename"
+                    name="middlename"
                     label="Middle name"
                     fullWidth
                     autoComplete="given-name"
@@ -156,7 +157,7 @@ export default function UserGeneration(props) {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     id="empId"
-                    name="employeeId"
+                    name="empId"
                     label="Employee ID"
                     fullWidth
                     autoComplete="employee-id"
@@ -166,8 +167,19 @@ export default function UserGeneration(props) {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    id="department"
+                    name="department"
+                    label="Department"
+                    fullWidth
+                    autoComplete="Department"
+                    onChange={formik.handleChange}
+                    value={formik.values.employeeId}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
                     id="mobileno"
-                    name="mobileNo"
+                    name="mobileno"
                     label="Mobile Number"
                     fullWidth
                     autoComplete="mobile-number"
