@@ -222,6 +222,7 @@ export default function AlertManagement() {
               data={alertsData}
               hooksCallback={hooksCallback}
               onRowSelectionChange={onRowSelectionChange}
+              hiddenColumns={["id", "dateCreated"]}
             />
           </Widget>
         </Grid>

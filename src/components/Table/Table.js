@@ -16,10 +16,12 @@ export default function TableComponent({
   hooksCallback,
   noDataText,
   onRowSelectionChange,
+  hiddenColumns,
 }) {
   const hooksProp = hooksCallback || NOOP;
   const rowSelectionChange = onRowSelectionChange || NOOP;
   const noDataMessage = noDataText || "No records found";
+  const columnToHide = hiddenColumns || [];
   const {
     getTableProps,
     headerGroups,
@@ -32,6 +34,9 @@ export default function TableComponent({
     {
       columns,
       data,
+      initialState: {
+        hiddenColumns: columnToHide,
+      },
     },
     useRowSelect,
     hooksProp,
