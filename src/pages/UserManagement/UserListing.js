@@ -22,7 +22,7 @@ const UserListing = ({ url }) => {
       url: urlList.user,
     })
       .then(function (response = {}) {
-        setUserData(response.allAlerts || []);
+        setUserData(response || []);
       })
       .catch(function () {
         enqueueSnackbar("Failed to fetch data", { variant: "error" });
