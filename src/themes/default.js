@@ -44,7 +44,7 @@ const defaultTheme = {
     },
     background: {
       default: "#F6F7FF",
-      light: "#F3F5FF",
+      light: "#dadce6",
     },
   },
   customShadows: {

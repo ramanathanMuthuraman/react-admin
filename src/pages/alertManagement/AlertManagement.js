@@ -149,7 +149,7 @@ export default function AlertManagement() {
 
   return (
     <>
-      <PageTitle title="Alert management" />
+      <PageTitle title="Alert Management" />
       <Dialog
         onClose={handleClose}
         aria-labelledby="simple-dialog-title"

@@ -12,14 +12,14 @@ const routes = [
   {
     component: UserManagement,
     path: "/app/user",
-    label: "User management",
+    label: "User Management",
     permission: [Roles.SUPER_ADMIN],
     icon: HomeIcon,
   },
   {
     component: FileManagement,
     path: "/app/file",
-    label: "File management",
+    label: "File Management",
     exact: true,
     permission: [Roles.SUPER_ADMIN],
     icon: InsertDriveFileIcon,

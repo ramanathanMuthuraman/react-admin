@@ -67,7 +67,7 @@ export default function FileManagement(props) {
 
   return (
     <>
-      <PageTitle title="File management" />
+      <PageTitle title="File Management" />
       <Grid container spacing={4}>
         <Grid item xs={12}>
           <Widget

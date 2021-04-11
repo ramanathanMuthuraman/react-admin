@@ -14,7 +14,7 @@ const UserManagement = (props) => {
 
   return (
     <>
-      <PageTitle title="User management" />
+      <PageTitle title="User Management" />
       <Switch>
         <Route exact path={path}>
           <UserListing url={url} />
