@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Grid, Typography, Button, TextField } from "@material-ui/core";
+import {
+  Grid,
+  Typography,
+  Button,
+  TextField,
+  CircularProgress,
+} from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import { getAllowedRoutes } from "../../utils/routeUtils";
 import PrivateRoutesConfig from "../../config/privateRoutesConfig";
@@ -14,7 +20,6 @@ import logo from "./logo.svg";
 // context
 import { useUserDispatch } from "../../context/UserContext";
 import useAPIError from "../../hooks/useAPIError";
-import useLoader from "../../hooks/useLoader";
 
 // api fetch
 import service from "../../utils/serviceUtils";
@@ -28,11 +33,11 @@ function Login(props) {
   // local
   var [loginValue, setLoginValue] = useState("");
   var [passwordValue, setPasswordValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { addError } = useAPIError();
-  const { setGlobalSpinner } = useLoader();
 
   const onLogin = () => {
-    setGlobalSpinner(true);
+    setIsLoading(true);
     service({
       method: "post",
       url: urlList.login,
@@ -57,7 +62,7 @@ function Login(props) {
         addError();
       })
       .finally(() => {
-        setGlobalSpinner(false);
+        setIsLoading(false);
       });
   };
 
@@ -101,15 +106,21 @@ function Login(props) {
               fullWidth
             />
             <div className={classes.formButtons}>
-              <Button
-                disabled={loginValue.length === 0 || passwordValue.length === 0}
-                onClick={onLogin}
-                variant="contained"
-                color="primary"
-                size="large"
-              >
-                Login
-              </Button>
+              {isLoading ? (
+                <CircularProgress size={26} />
+              ) : (
+                <Button
+                  disabled={
+                    loginValue.length === 0 || passwordValue.length === 0
+                  }
+                  onClick={onLogin}
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                >
+                  Login
+                </Button>
+              )}
             </div>
           </React.Fragment>
         </div>
