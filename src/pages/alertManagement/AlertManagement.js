@@ -39,9 +39,6 @@ export default function AlertManagement() {
       })
       .catch(function () {
         enqueueSnackbar("Failed to fetch data", { variant: "error" });
-      })
-      .finally(() => {
-        setGlobalSpinner(false);
       });
   };
   const getAlerts = () => {
@@ -51,15 +48,17 @@ export default function AlertManagement() {
     })
       .then(function (response = {}) {
         setAlertsData(response.allAlerts || []);
-        getUsers();
       })
       .catch(function () {
         enqueueSnackbar("Failed to fetch data", { variant: "error" });
+      })
+      .finally(() => {
         setGlobalSpinner(false);
       });
   };
   useEffect(() => {
     setGlobalSpinner(true);
+    getUsers();
     getAlerts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enqueueSnackbar]);
