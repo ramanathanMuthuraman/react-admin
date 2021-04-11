@@ -11,12 +11,16 @@ import columns from "./columns";
 
 import Widget from "../../components/Widget/Widget";
 import Table from "../../components/Table/Table.js";
+import useLoader from "../../hooks/useLoader";
 
 const UserListing = ({ url }) => {
+  const { setGlobalSpinner } = useLoader();
   var classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const [userData, setUserData] = React.useState([]);
+
   useEffect(() => {
+    setGlobalSpinner(true);
     service({
       method: "get",
       url: urlList.user,
@@ -26,7 +30,11 @@ const UserListing = ({ url }) => {
       })
       .catch(function () {
         enqueueSnackbar("Failed to fetch data", { variant: "error" });
+      })
+      .finally(() => {
+        setGlobalSpinner(false);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enqueueSnackbar]);
   return (
     <>
@@ -38,11 +46,13 @@ const UserListing = ({ url }) => {
             bodyClass={classes.tableWidget}
             disableWidgetMenu
           >
-            <Link className={classes.customLink} to={`${url}/create`}>
-              <Button variant="contained" color="primary" onClick={() => {}}>
-                Add user
-              </Button>
-            </Link>
+            <div>
+              <Link className={classes.customLink} to={`${url}/create`}>
+                <Button variant="contained" color="primary" onClick={() => {}}>
+                  Add user
+                </Button>
+              </Link>
+            </div>
             <Table columns={columns} data={userData} />
           </Widget>
         </Grid>

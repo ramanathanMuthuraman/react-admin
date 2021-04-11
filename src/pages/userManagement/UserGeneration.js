@@ -16,7 +16,7 @@ import useStyles from "./styles";
 
 // components
 import Widget from "../../components/Widget/Widget";
-// import useLoader from "../../hooks/useLoader";
+import useLoader from "../../hooks/useLoader";
 
 import { urlList } from "../../config/urlConfig";
 import service from "../../utils/serviceUtils";
@@ -46,7 +46,7 @@ import service from "../../utils/serviceUtils";
 export default function UserGeneration(props) {
   var classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-  // const { setGlobalSpinner } = useLoader();
+  const { setGlobalSpinner } = useLoader();
   // const [modules, setModules] = useState([]);
 
   // const handleChange = (event) => {
@@ -54,7 +54,7 @@ export default function UserGeneration(props) {
   // };
 
   const saveData = (values) => {
-    // setGlobalSpinner(true);
+    setGlobalSpinner(true);
     service({
       method: "post",
       url: urlList.user,
@@ -77,7 +77,7 @@ export default function UserGeneration(props) {
         });
       })
       .finally(() => {
-        // setGlobalSpinner(false);
+        setGlobalSpinner(false);
       });
   };
 
@@ -225,6 +225,7 @@ export default function UserGeneration(props) {
                   variant="contained"
                   color="primary"
                   fullWidth
+                  disabled={!formik.values.username}
                   type="submit"
                 >
                   Submit

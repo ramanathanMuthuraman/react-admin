@@ -5,13 +5,15 @@ import { LoaderContext } from "../../context/LoaderContext";
 
 const styles = () => ({
   progress: {
-    height: "100vh",
+    height: "100%",
     width: "100%",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     background: "rgba(0, 0, 0, 0.5)",
-    position: "relative",
+    position: "fixed",
+    top: 0,
+    zIndex: 1202,
   },
 });
 

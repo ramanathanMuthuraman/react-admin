@@ -8,6 +8,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import { useSnackbar } from "notistack";
 import { urlList } from "../../config/urlConfig";
 import service from "../../utils/serviceUtils";
+import useLoader from "../../hooks/useLoader";
 
 // styles
 import useStyles from "./styles";
@@ -21,26 +22,14 @@ import IndeterminateCheckbox from "../../components/IndeterminateCheckbox/Indete
 
 export default function AlertManagement() {
   var classes = useStyles();
+  const { setGlobalSpinner } = useLoader();
   const { enqueueSnackbar } = useSnackbar();
   const [alertsData, setAlertsData] = useState([]);
   const [userData, setUserData] = React.useState([]);
   const [selectedUser, setSelectedUser] = React.useState("");
   const [selectedRows, setSelectedRows] = useState([]);
   const [togglePopup, setTogglePopup] = useState(false);
-  const getAlerts = () => {
-    service({
-      method: "get",
-      url: urlList.alert,
-    })
-      .then(function (response = {}) {
-        setAlertsData(response.allAlerts || []);
-      })
-      .catch(function () {
-        enqueueSnackbar("Failed to fetch data", { variant: "error" });
-      });
-  };
-  useEffect(() => {
-    getAlerts();
+  const getUsers = () => {
     service({
       method: "get",
       url: urlList.user,
@@ -50,7 +39,28 @@ export default function AlertManagement() {
       })
       .catch(function () {
         enqueueSnackbar("Failed to fetch data", { variant: "error" });
+      })
+      .finally(() => {
+        setGlobalSpinner(false);
       });
+  };
+  const getAlerts = () => {
+    service({
+      method: "get",
+      url: urlList.alert,
+    })
+      .then(function (response = {}) {
+        setAlertsData(response.allAlerts || []);
+        getUsers();
+      })
+      .catch(function () {
+        enqueueSnackbar("Failed to fetch data", { variant: "error" });
+        setGlobalSpinner(false);
+      });
+  };
+  useEffect(() => {
+    setGlobalSpinner(true);
+    getAlerts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enqueueSnackbar]);
 
