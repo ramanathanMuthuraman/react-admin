@@ -53,7 +53,11 @@ const UserListing = ({ url }) => {
                 </Button>
               </Link>
             </div>
-            <Table columns={columns} data={userData} />
+            <Table
+              columns={columns}
+              data={userData}
+              hiddenColumns={["modules"]}
+            />
           </Widget>
         </Grid>
       </Grid>
