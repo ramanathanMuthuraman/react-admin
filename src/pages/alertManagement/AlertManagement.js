@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Button, Select, MenuItem } from "@material-ui/core";
+import {
+  Grid,
+  Button,
+  Select,
+  MenuItem,
+  CircularProgress,
+} from "@material-ui/core";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -29,6 +35,7 @@ export default function AlertManagement() {
   const [selectedUser, setSelectedUser] = React.useState("");
   const [selectedRows, setSelectedRows] = useState([]);
   const [togglePopup, setTogglePopup] = useState(false);
+  const [isUserAssignLoading, setIsUserAssignLoading] = useState(false);
   const getUsers = () => {
     service({
       method: "get",
@@ -42,6 +49,7 @@ export default function AlertManagement() {
       });
   };
   const getAlerts = () => {
+    setGlobalSpinner(true);
     service({
       method: "get",
       url: urlList.alert,
@@ -57,13 +65,13 @@ export default function AlertManagement() {
       });
   };
   useEffect(() => {
-    setGlobalSpinner(true);
     getUsers();
     getAlerts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enqueueSnackbar]);
 
   const assignUser = () => {
+    setIsUserAssignLoading(true);
     service({
       method: "post",
       url: `${urlList.alert}/${selectedUser}/assign`,
@@ -83,6 +91,9 @@ export default function AlertManagement() {
           variant: "error",
           preventDuplicate: true,
         });
+      })
+      .finally(() => {
+        setIsUserAssignLoading(false);
       });
   };
 
@@ -202,15 +213,19 @@ export default function AlertManagement() {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button
-            variant="contained"
-            color="primary"
-            data-testid="notification-submit-button"
-            onClick={assignUser}
-            disabled={selectedUser === ""}
-          >
-            Assign
-          </Button>
+          {isUserAssignLoading ? (
+            <CircularProgress size={26} />
+          ) : (
+            <Button
+              variant="contained"
+              color="primary"
+              data-testid="notification-submit-button"
+              onClick={assignUser}
+              disabled={selectedUser === ""}
+            >
+              Assign
+            </Button>
+          )}
         </DialogActions>
       </Dialog>
       <Grid container spacing={4}>
