@@ -46,7 +46,7 @@ const UserListing = ({ url }) => {
             bodyClass={classes.tableWidget}
             disableWidgetMenu
           >
-            <div>
+            <div className={classes.actionContainer}>
               <Link className={classes.customLink} to={`${url}/create`}>
                 <Button variant="contained" color="primary" onClick={() => {}}>
                   Add user

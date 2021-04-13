@@ -1,13 +1,8 @@
 import React, { useEffect } from "react";
 import { useTable, useRowSelect } from "react-table";
 // import { makeStyles } from "@material-ui/core/styles";
-import {
-  Table,
-  TableRow,
-  TableHead,
-  TableBody,
-  TableCell,
-} from "@material-ui/core";
+import { Table, TableRow, TableHead, TableBody } from "@material-ui/core";
+import { StyledTableRow, StyledTableCell } from "./styles";
 import { NOOP } from "../../constants/constants";
 
 export default function TableComponent({
@@ -57,9 +52,9 @@ export default function TableComponent({
         {headerGroups.map((headerGroup) => (
           <TableRow {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column, index) => (
-              <TableCell {...column.getHeaderProps()}>
+              <StyledTableCell {...column.getHeaderProps()}>
                 {column.render("Header")}
-              </TableCell>
+              </StyledTableCell>
             ))}
           </TableRow>
         ))}
@@ -68,15 +63,15 @@ export default function TableComponent({
         {rows.map((row, i) => {
           prepareRow(row);
           return (
-            <TableRow {...row.getRowProps()}>
+            <StyledTableRow {...row.getRowProps()}>
               {row.cells.map((cell) => {
                 return (
-                  <TableCell {...cell.getCellProps()}>
+                  <StyledTableCell {...cell.getCellProps()}>
                     {cell.render("Cell")}
-                  </TableCell>
+                  </StyledTableCell>
                 );
               })}
-            </TableRow>
+            </StyledTableRow>
           );
         })}
       </TableBody>

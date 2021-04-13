@@ -23,8 +23,4 @@ export default makeStyles(() => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  addAaction: {
-    padding: "10px",
-    width: "30%",
-  },
 }));
