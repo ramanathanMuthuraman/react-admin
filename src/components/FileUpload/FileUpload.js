@@ -1,8 +1,8 @@
-import { DropzoneArea } from "material-ui-dropzone";
+import { StyledDropzoneArea } from "./styles";
 
 const FileUpload = ({ onChange, ...rest }) => {
   return (
-    <DropzoneArea
+    <StyledDropzoneArea
       showAlerts={["error"]}
       filesLimit={1}
       onChange={onChange}

@@ -16,7 +16,7 @@ export default makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   optionDetails: {
-    width: "50%",
+    width: "30%",
     paddingTop: "20px",
     display: "flex",
     justifyContent: "center",
