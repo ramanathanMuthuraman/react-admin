@@ -181,7 +181,7 @@ export default function AlertManagement() {
               </DialogContentText>
             </Grid>
             <Grid item>
-              <DialogContentText>
+              <DialogContentText className={classes.centerAlignText}>
                 {selectedRows.map((row) => row.values.alertId).join(",")}
               </DialogContentText>
             </Grid>

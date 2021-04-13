@@ -5,4 +5,5 @@ export default makeStyles(() => ({
     marginBottom: "20px",
   },
   dialogContent: { minWidth: "500px" },
+  centerAlignText: { textAlign: "center" },
 }));
