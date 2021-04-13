@@ -1,6 +1,7 @@
 import React from "react";
 import { useFormik } from "formik";
 import { useSnackbar } from "notistack";
+import { useHistory } from "react-router-dom";
 import {
   Grid,
   Button,
@@ -47,6 +48,7 @@ export default function UserGeneration(props) {
   var classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const { setGlobalSpinner } = useLoader();
+  const history = useHistory();
   // const [modules, setModules] = useState([]);
 
   // const handleChange = (event) => {
@@ -69,6 +71,7 @@ export default function UserGeneration(props) {
           variant: "success",
           preventDuplicate: true,
         });
+        history.push("/app");
       })
       .catch(function () {
         enqueueSnackbar("Failed to save data", {
