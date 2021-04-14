@@ -6,4 +6,5 @@ export default makeStyles(() => ({
   },
   dialogContent: { minWidth: "500px" },
   centerAlignText: { textAlign: "center" },
+  filterDropdDown: { minWidth: "100px" },
 }));

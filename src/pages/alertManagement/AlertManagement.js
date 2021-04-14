@@ -5,6 +5,7 @@ import {
   Select,
   MenuItem,
   CircularProgress,
+  TextField,
 } from "@material-ui/core";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContentText from "@material-ui/core/DialogContentText";
@@ -24,13 +25,24 @@ import CustomDialog from "../../components/CustomDialog/CustomDialog";
 import columns from "./columns";
 import IndeterminateCheckbox from "../../components/IndeterminateCheckbox/IndeterminateCheckbox";
 
+const filters = [
+  {
+    key: "All",
+  },
+  {
+    key: "Unassigned",
+  },
+];
+
 export default function AlertManagement() {
   var classes = useStyles();
   const { setGlobalSpinner } = useLoader();
   const { enqueueSnackbar } = useSnackbar();
-  const [alertsData, setAlertsData] = useState([]);
-  const [userData, setUserData] = React.useState([]);
-  const [selectedUser, setSelectedUser] = React.useState("");
+  const [allAlertsData, setAllAlertsData] = useState([]);
+  const [toBeAssignedData, setToBeAssignedData] = useState([]);
+  const [userData, setUserData] = useState([]);
+  const [selectedUser, setSelectedUser] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState(filters[0].key);
   const [selectedRows, setSelectedRows] = useState([]);
   const [togglePopup, setTogglePopup] = useState(false);
   const [isUserAssignLoading, setIsUserAssignLoading] = useState(false);
@@ -53,7 +65,8 @@ export default function AlertManagement() {
       url: urlList.alert,
     })
       .then(function (response = {}) {
-        setAlertsData(response.allAlerts || []);
+        setAllAlertsData(response.allAlerts);
+        setToBeAssignedData(response.remainingAlertAssignToUsr);
       })
       .catch(function () {
         enqueueSnackbar("Failed to fetch data", { variant: "error" });
@@ -156,6 +169,10 @@ export default function AlertManagement() {
     setSelectedUser(event.target.value);
   };
 
+  const onFilterChange = (event) => {
+    setSelectedFilter(event.target.value);
+  };
+
   return (
     <>
       <PageTitle title="Alert Management" />
@@ -221,19 +238,44 @@ export default function AlertManagement() {
       <Grid container spacing={4}>
         <Grid item xs={12}>
           <Widget title="" upperTitle disableWidgetMenu>
-            <div className={classes.actionContainer}>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={onAssign}
-                disabled={!selectedRows || selectedRows.length === 0}
-              >
-                Assign user
-              </Button>
-            </div>
+            <Grid
+              container
+              alignItems="center"
+              spacing={4}
+              className={classes.actionContainer}
+            >
+              <Grid item>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={onAssign}
+                  disabled={!selectedRows || selectedRows.length === 0}
+                >
+                  Assign user
+                </Button>
+              </Grid>
+              <Grid item>
+                <TextField
+                  className={classes.filterDropdDown}
+                  id="filter-alerts"
+                  select
+                  label="Filter by"
+                  value={selectedFilter}
+                  onChange={onFilterChange}
+                >
+                  {filters.map((option) => {
+                    return (
+                      <MenuItem key={option.key} value={option.key}>
+                        {option.key}
+                      </MenuItem>
+                    );
+                  })}
+                </TextField>
+              </Grid>
+            </Grid>
             <Table
               columns={columns}
-              data={alertsData}
+              data={selectedFilter === "All" ? allAlertsData : toBeAssignedData}
               hooksCallback={hooksCallback}
               onRowSelectionChange={onRowSelectionChange}
               hiddenColumns={["id", "dateCreated"]}
