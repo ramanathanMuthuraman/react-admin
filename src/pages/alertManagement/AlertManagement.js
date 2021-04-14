@@ -6,10 +6,7 @@ import {
   MenuItem,
   CircularProgress,
 } from "@material-ui/core";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import { useSnackbar } from "notistack";
 import { urlList } from "../../config/urlConfig";
@@ -23,6 +20,7 @@ import useStyles from "./styles";
 import Widget from "../../components/Widget/Widget";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Table from "../../components/Table/Table.js";
+import CustomDialog from "../../components/CustomDialog/CustomDialog";
 import columns from "./columns";
 import IndeterminateCheckbox from "../../components/IndeterminateCheckbox/IndeterminateCheckbox";
 
@@ -161,57 +159,49 @@ export default function AlertManagement() {
   return (
     <>
       <PageTitle title="Alert Management" />
-      <Dialog
+      <CustomDialog
         onClose={handleClose}
-        aria-labelledby="simple-dialog-title"
         open={togglePopup}
-        scroll="paper"
+        title="Assign user"
       >
-        <DialogTitle id="simple-dialog-title">Assign user</DialogTitle>
-        <DialogContent className={classes.dialogContent}>
-          <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="center"
-          >
-            <Grid item>
-              <DialogContentText>
-                Assign {selectedRows.length} alerts
-              </DialogContentText>
-            </Grid>
-            <Grid item>
-              <DialogContentText className={classes.centerAlignText}>
-                {selectedRows.map((row) => row.values.alertId).join(",")}
-              </DialogContentText>
-            </Grid>
-
-            <Grid item>
-              <DialogContentText>to</DialogContentText>
-            </Grid>
-            <Grid item>
-              <Select
-                displayEmpty
-                labelId="demo-simple-select-label"
-                id="demo-simple-select-required"
-                value={selectedUser}
-                onChange={handleChange}
-                fullWidth
-              >
-                <MenuItem value="" disabled>
-                  Select user
-                </MenuItem>
-                {userData.map((user) => {
-                  return (
-                    <MenuItem key={user.username} value={user.username}>
-                      {user.username}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </Grid>
+        <Grid container direction="column" justify="center" alignItems="center">
+          <Grid item>
+            <DialogContentText>
+              Assign {selectedRows.length} alerts
+            </DialogContentText>
           </Grid>
-        </DialogContent>
+          <Grid item>
+            <DialogContentText className={classes.centerAlignText}>
+              {selectedRows.map((row) => row.values.alertId).join(",")}
+            </DialogContentText>
+          </Grid>
+
+          <Grid item>
+            <DialogContentText>to</DialogContentText>
+          </Grid>
+          <Grid item>
+            <Select
+              displayEmpty
+              labelId="demo-simple-select-label"
+              id="demo-simple-select-required"
+              value={selectedUser}
+              onChange={handleChange}
+              fullWidth
+            >
+              <MenuItem value="" disabled>
+                Select user
+              </MenuItem>
+              {userData.map((user) => {
+                return (
+                  <MenuItem key={user.username} value={user.username}>
+                    {user.username}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </Grid>
+        </Grid>
+
         <DialogActions>
           {isUserAssignLoading ? (
             <CircularProgress size={26} />
@@ -227,7 +217,7 @@ export default function AlertManagement() {
             </Button>
           )}
         </DialogActions>
-      </Dialog>
+      </CustomDialog>
       <Grid container spacing={4}>
         <Grid item xs={12}>
           <Widget title="" upperTitle disableWidgetMenu>
