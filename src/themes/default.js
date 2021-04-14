@@ -39,7 +39,7 @@ const defaultTheme = {
     },
     text: {
       primary: "#4A4A4A",
-      secondary: "#6E6E6E",
+      secondary: "#FFFFFF",
       hint: "#B9B9B9",
     },
     background: {

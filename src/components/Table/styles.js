@@ -8,13 +8,14 @@ export default makeStyles((theme) => ({
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: "#f0fff0",
+    backgroundColor: theme.palette.primary.main,
     fontWeight: "bold",
-    border: `1px solid #ccc`,
+    border: `1px solid #000`,
+    color: "white",
   },
   body: {
     fontSize: 14,
-    border: `1px solid #ccc`,
+    border: `1px solid #000`,
   },
 }))(TableCell);
 

@@ -1,8 +1,11 @@
 import React from "react";
 import Checkbox from "@material-ui/core/Checkbox";
+import clsx from "clsx";
+import useStyles from "./styles";
 
 const IndeterminateCheckbox = React.forwardRef(
   ({ indeterminate, ...rest }, ref) => {
+    var classes = useStyles();
     const defaultRef = React.useRef();
     const resolvedRef = ref || defaultRef;
     React.useEffect(() => {
@@ -10,7 +13,16 @@ const IndeterminateCheckbox = React.forwardRef(
     }, [resolvedRef, indeterminate]);
     return (
       <>
-        <Checkbox indeterminate={indeterminate} ref={resolvedRef} {...rest} />
+        <Checkbox
+          checkedIcon={
+            <span className={clsx(classes.icon, classes.checkedIcon)} />
+          }
+          icon={<span className={classes.icon} />}
+          className={classes.root}
+          indeterminate={indeterminate}
+          ref={resolvedRef}
+          {...rest}
+        />
       </>
     );
   },

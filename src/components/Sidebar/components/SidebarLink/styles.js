@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/styles";
 
-export default makeStyles(theme => ({
+export default makeStyles((theme) => ({
   link: {
     textDecoration: "none",
     "&:hover, &:focus": {
@@ -18,7 +18,6 @@ export default makeStyles(theme => ({
   },
   linkIcon: {
     marginRight: theme.spacing(1),
-    color: theme.palette.text.secondary + "99",
     transition: theme.transitions.create("color"),
     width: 24,
     display: "flex",
@@ -29,7 +28,6 @@ export default makeStyles(theme => ({
   },
   linkText: {
     padding: 0,
-    color: theme.palette.text.secondary + "CC",
     transition: theme.transitions.create(["opacity", "color"]),
     fontSize: 16,
   },
