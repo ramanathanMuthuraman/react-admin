@@ -2,7 +2,9 @@ import React from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 import classnames from "classnames";
 import { getAllowedRoutes } from "../../utils/routeUtils";
-import PrivateRoutesConfig from "../../config/privateRoutesConfig";
+import PrivateRoutesConfig, {
+  otherRoutes,
+} from "../../config/privateRoutesConfig";
 
 // styles
 import useStyles from "./styles";
@@ -35,14 +37,18 @@ function Layout(props) {
 
   const { user = {} } = userProps;
 
-  const allowedRoutes = getAllowedRoutes(PrivateRoutesConfig, user.roleName);
+  const allowedSidebarRoutes = getAllowedRoutes(
+    PrivateRoutesConfig,
+    user.roleName,
+    user.modules,
+  );
+  const allRoutes = allowedSidebarRoutes.concat(otherRoutes);
 
-  const sidebarRoutes = allowedRoutes.filter((route) => route.isSidebarLink);
   return (
     <div className={classes.root}>
       <>
         <Header userName={user.userName} history={props.history} />
-        <Sidebar allowedRoutes={sidebarRoutes} />
+        <Sidebar allowedRoutes={allowedSidebarRoutes} />
         <div
           className={classnames(classes.content, {
             [classes.contentShift]: layoutState.isSidebarOpened,
@@ -50,7 +56,7 @@ function Layout(props) {
         >
           <div className={classes.fakeToolbar} />
           <Switch>
-            <AllowedRoutes allowedRoutes={allowedRoutes} />
+            <AllowedRoutes allowedRoutes={allRoutes} />
           </Switch>
         </div>
       </>

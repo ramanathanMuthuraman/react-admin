@@ -54,6 +54,7 @@ function Login(props) {
         const allowedRoutes = getAllowedRoutes(
           PrivateRoutesConfig,
           user.roleName,
+          user.modules,
         );
         props.history.push(allowedRoutes[0].path);
       })

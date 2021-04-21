@@ -14,34 +14,38 @@ const routes = [
     component: UserManagement,
     path: "/app/user",
     label: "User Management",
+    id: "UM",
     permission: [Roles.SUPER_ADMIN],
     icon: HomeIcon,
-    isSidebarLink: true,
   },
   {
     component: FileManagement,
     path: "/app/file",
     label: "File Management",
     exact: true,
+    id: "FM",
     permission: [Roles.SUPER_ADMIN],
     icon: InsertDriveFileIcon,
-    isSidebarLink: true,
   },
   {
     component: AlertManagement,
     path: "/app/alert",
     label: "Alert Management",
+    id: "AM",
     permission: [Roles.SUPER_ADMIN],
     icon: WarningIcon,
-    isSidebarLink: true,
   },
+];
+
+const otherRoutes = [
   {
     component: ChangePassword,
     path: "/app/change-password",
     label: "Change Password",
     permission: [Roles.SUPER_ADMIN, Roles.GUEST],
-    isSidebarLink: false,
   },
 ];
+
+export { otherRoutes };
 
 export default routes;
