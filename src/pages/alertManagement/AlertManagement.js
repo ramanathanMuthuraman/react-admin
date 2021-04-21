@@ -86,7 +86,7 @@ export default function AlertManagement() {
     service({
       method: "post",
       url: `${urlList.alert}/${selectedUser}/assign`,
-      data: selectedRows.map((row) => row.values.alertId),
+      data: selectedRows.map((row) => row.values.id),
     })
       .then(function () {
         enqueueSnackbar("Assigned successfully", {
