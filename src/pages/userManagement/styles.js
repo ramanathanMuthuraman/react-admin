@@ -23,4 +23,7 @@ export default makeStyles(() => ({
     alignItems: "center",
     justifyContent: "center",
   },
+  moduleFormControl: {
+    width: "100%",
+  },
 }));

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import { useSnackbar } from "notistack";
 import { useHistory } from "react-router-dom";
@@ -6,11 +6,13 @@ import {
   Grid,
   Button,
   TextField,
-  // Input,
-  // MenuItem,
-  // Select,
-  // Checkbox,
-  // ListItemText,
+  Input,
+  MenuItem,
+  Select,
+  Checkbox,
+  ListItemText,
+  InputLabel,
+  FormControl,
 } from "@material-ui/core";
 // styles
 import useStyles from "./styles";
@@ -22,48 +24,54 @@ import useLoader from "../../hooks/useLoader";
 import { urlList } from "../../config/urlConfig";
 import service from "../../utils/serviceUtils";
 
-// const allModules = [
-//   {
-//     key: "AM",
-//     value: "Alert Managment",
-//   },
-//   {
-//     key: "CRA",
-//     value: "Check Risk Assessment",
-//   },
-// ];
+const allModules = [
+  {
+    key: "AM",
+    value: "Alert Managment",
+  },
+  {
+    key: "CRA",
+    value: "Compliance Risk Assessment",
+  },
+];
 
-// const ITEM_HEIGHT = 48;
-// const ITEM_PADDING_TOP = 8;
-// const MenuProps = {
-//   PaperProps: {
-//     style: {
-//       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-//       width: 250,
-//     },
-//   },
-// };
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
 export default function UserGeneration(props) {
   var classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const { setGlobalSpinner } = useLoader();
   const history = useHistory();
-  // const [modules, setModules] = useState([]);
+  const [modules, setModules] = useState(allModules.map((item) => item.value));
 
-  // const handleChange = (event) => {
-  //   setModules(event.target.value);
-  // };
+  const handleChange = (event) => {
+    if (event.target.value.length > 0) {
+      setModules(event.target.value);
+    }
+  };
 
   const saveData = (values) => {
     setGlobalSpinner(true);
+
+    const selectedModule = allModules
+      .map((item) => (modules.includes(item.value) ? item.key : null))
+      .filter((item) => !!item);
     service({
       method: "post",
       url: urlList.user,
       data: {
         ...values,
         roleName: "USER",
-        modules: ["AM", "CRA"],
+        modules: selectedModule,
       },
     })
       .then(function () {
@@ -201,26 +209,29 @@ export default function UserGeneration(props) {
                     value={formik.values.email}
                   />
                 </Grid>
-                {/* <Grid item xs={12} sm={6} className={classes.selectHolder}>
-                <Select
-                  fullWidth
-                  labelId="module"
-                  id="module"
-                  multiple
-                  value={modules}
-                  onChange={handleChange}
-                  input={<Input />}
-                  renderValue={(selected) => selected.join(", ")}
-                  MenuProps={MenuProps}
-                >
-                  {allModules.map(({ key, value }) => (
-                    <MenuItem key={key} value={value}>
-                      <Checkbox checked={modules.indexOf(value) > -1} />
-                      <ListItemText primary={value} />
-                    </MenuItem>
-                  ))}{" "}
-                </Select>
-              </Grid> */}
+                <Grid item xs={12} sm={6} className={classes.selectHolder}>
+                  <FormControl className={classes.moduleFormControl}>
+                    <InputLabel id="module-label">Module</InputLabel>
+                    <Select
+                      labelId="module-label"
+                      fullWidth
+                      id="module"
+                      multiple
+                      value={modules}
+                      onChange={handleChange}
+                      input={<Input />}
+                      renderValue={(selected) => selected.join(", ")}
+                      MenuProps={MenuProps}
+                    >
+                      {allModules.map(({ key, value }) => (
+                        <MenuItem key={key} value={value}>
+                          <Checkbox checked={modules.indexOf(value) > -1} />
+                          <ListItemText primary={value} />
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
               </Grid>
               <div className={classes.addActionContainer}>
                 <Button

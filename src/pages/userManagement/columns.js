@@ -34,6 +34,9 @@ const columns = [
   {
     Header: "Modules",
     accessor: "modules",
+    Cell: (props) => {
+      return <>{props.value.join(",")}</>;
+    },
   },
   {
     Header: "Role Name",
