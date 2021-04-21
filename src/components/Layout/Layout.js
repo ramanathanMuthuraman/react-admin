@@ -37,11 +37,12 @@ function Layout(props) {
 
   const allowedRoutes = getAllowedRoutes(PrivateRoutesConfig, user.roleName);
 
+  const sidebarRoutes = allowedRoutes.filter((route) => route.isSidebarLink);
   return (
     <div className={classes.root}>
       <>
         <Header userName={user.userName} history={props.history} />
-        <Sidebar allowedRoutes={allowedRoutes} />
+        <Sidebar allowedRoutes={sidebarRoutes} />
         <div
           className={classnames(classes.content, {
             [classes.contentShift]: layoutState.isSidebarOpened,

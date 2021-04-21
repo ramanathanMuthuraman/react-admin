@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { AppBar, Toolbar, IconButton, Menu } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import {
   Menu as MenuIcon,
   Person as AccountIcon,
@@ -90,6 +91,17 @@ export default function Header(props) {
             <Typography variant="h4" weight="medium">
               {props.userName}
             </Typography>
+          </div>
+          <div className={classes.profileMenuUser}>
+            <Link to={`/app/change-password`} className={classes.linkClass}>
+              <Typography
+                className={classes.profileMenuLink}
+                color="primary"
+                onClick={() => {}}
+              >
+                Change Password
+              </Typography>
+            </Link>
           </div>
           <div className={classes.profileMenuUser}>
             <Typography

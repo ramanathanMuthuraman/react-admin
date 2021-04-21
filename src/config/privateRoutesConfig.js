@@ -2,6 +2,7 @@ import Roles from "./roles";
 import UserManagement from "../pages/userManagement/UserManagement";
 import FileManagement from "../pages/fileManagement/FileManagement";
 import AlertManagement from "../pages/alertManagement/AlertManagement";
+import ChangePassword from "../pages/changePassword/ChangePassword";
 import {
   Home as HomeIcon,
   InsertDriveFile as InsertDriveFileIcon,
@@ -15,6 +16,7 @@ const routes = [
     label: "User Management",
     permission: [Roles.SUPER_ADMIN],
     icon: HomeIcon,
+    isSidebarLink: true,
   },
   {
     component: FileManagement,
@@ -23,6 +25,7 @@ const routes = [
     exact: true,
     permission: [Roles.SUPER_ADMIN],
     icon: InsertDriveFileIcon,
+    isSidebarLink: true,
   },
   {
     component: AlertManagement,
@@ -30,6 +33,14 @@ const routes = [
     label: "Alert Management",
     permission: [Roles.SUPER_ADMIN],
     icon: WarningIcon,
+    isSidebarLink: true,
+  },
+  {
+    component: ChangePassword,
+    path: "/app/change-password",
+    label: "Change Password",
+    permission: [Roles.SUPER_ADMIN, Roles.GUEST],
+    isSidebarLink: false,
   },
 ];
 
