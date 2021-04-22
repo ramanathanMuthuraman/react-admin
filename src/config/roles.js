@@ -1,6 +1,6 @@
 const roles = {
   SUPER_ADMIN: "SUPER_ADMIN",
-  GUEST: "GUEST",
+  USER: "USER",
 };
 
 export default roles;

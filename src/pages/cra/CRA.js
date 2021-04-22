@@ -34,7 +34,7 @@ const filters = [
   },
 ];
 
-export default function AlertManagement() {
+export default function CRA() {
   var classes = useStyles();
   const { setGlobalSpinner } = useLoader();
   const { enqueueSnackbar } = useSnackbar();
@@ -173,7 +173,7 @@ export default function AlertManagement() {
 
   return (
     <>
-      <PageTitle title="Alert Management" />
+      <PageTitle title="CRA" />
       <CustomDialog
         onClose={handleClose}
         open={togglePopup}
