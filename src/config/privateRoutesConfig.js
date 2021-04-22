@@ -9,6 +9,7 @@ import {
   Home as HomeIcon,
   InsertDriveFile as InsertDriveFileIcon,
   Warning as WarningIcon,
+  Assessment as AssessmentIcon,
 } from "@material-ui/icons";
 
 const routes = [
@@ -51,7 +52,7 @@ const routes = [
     label: "CRA",
     id: "CRA",
     permission: [Roles.USER],
-    icon: WarningIcon,
+    icon: AssessmentIcon,
   },
 ];
 
