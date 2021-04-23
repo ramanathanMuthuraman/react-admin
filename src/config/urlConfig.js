@@ -6,6 +6,7 @@ const urlList = {
   alertExportForTeam: "/alert/export",
   alert: "/alert",
   user: "/user",
+  changePassword: "/user/changepassword",
 };
 
 export { BASE_URL, urlList };
