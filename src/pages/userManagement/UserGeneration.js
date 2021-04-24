@@ -178,6 +178,7 @@ export default function UserGeneration(props) {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    required
                     id="department"
                     name="department"
                     label="Department"
@@ -239,7 +240,6 @@ export default function UserGeneration(props) {
                   variant="contained"
                   color="primary"
                   fullWidth
-                  disabled={!formik.values.username}
                   type="submit"
                 >
                   Submit

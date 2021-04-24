@@ -80,6 +80,7 @@ export default function ChangePassword() {
                 <Grid item xs={12}>
                   <TextField
                     required
+                    type="password"
                     id="currentPassword"
                     name="currentPassword"
                     label="Current Password"
@@ -92,6 +93,7 @@ export default function ChangePassword() {
                 <Grid item xs={12}>
                   <TextField
                     required
+                    type="password"
                     id="newPassword"
                     name="newPassword"
                     label="New Password"
@@ -104,17 +106,17 @@ export default function ChangePassword() {
                 <Grid item xs={12}>
                   <TextField
                     required
+                    error={formik.errors.repeatNewPassword}
+                    type="password"
                     id="repeatNewPassword"
                     name="repeatNewPassword"
                     label="Repeat New Password"
                     fullWidth
                     autoComplete="Repeat New Password"
                     onChange={formik.handleChange}
+                    helperText={formik.errors.repeatNewPassword}
                     value={formik.values.repeatNewPassword}
                   />
-                  {formik.errors.repeatNewPassword ? (
-                    <div>{formik.errors.repeatNewPassword}</div>
-                  ) : null}
                 </Grid>
               </Grid>
               <div className={classes.actionContainer}>
