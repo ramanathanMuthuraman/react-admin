@@ -1,46 +1,18 @@
-import React, { useEffect } from "react";
-import { useTable, useRowSelect } from "react-table";
+import React from "react";
 // import { makeStyles } from "@material-ui/core/styles";
 import { Table, TableRow, TableHead, TableBody } from "@material-ui/core";
 import { StyledTableRow, StyledTableCell } from "./styles";
-import { NOOP } from "../../constants/constants";
 
 export default function TableComponent({
-  columns,
   data,
-  hooksCallback,
   noDataText,
-  onRowSelectionChange,
-  hiddenColumns,
+  headerGroups,
+  prepareRow,
+  getTableProps,
+  getTableBodyProps,
+  rows,
 }) {
-  const hooksProp = hooksCallback || NOOP;
-  const rowSelectionChange = onRowSelectionChange || NOOP;
   const noDataMessage = noDataText || "No records found";
-  const columnToHide = hiddenColumns || [];
-  const {
-    getTableProps,
-    headerGroups,
-    getTableBodyProps,
-    rows,
-    prepareRow,
-    selectedFlatRows,
-    // state: { selectedRowIds },
-  } = useTable(
-    {
-      columns,
-      data,
-      initialState: {
-        hiddenColumns: columnToHide,
-      },
-    },
-    useRowSelect,
-    hooksProp,
-  );
-
-  useEffect(() => {
-    rowSelectionChange(selectedFlatRows);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedFlatRows]);
 
   if (!data || data.length === 0) {
     return <>{noDataMessage}</>;

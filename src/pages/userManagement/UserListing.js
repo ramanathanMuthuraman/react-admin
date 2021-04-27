@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Grid, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { useSnackbar } from "notistack";
+import { useTable } from "react-table";
 
 import { urlList } from "../../config/urlConfig";
 import service from "../../utils/serviceUtils";
@@ -36,6 +37,11 @@ const UserListing = ({ url }) => {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enqueueSnackbar]);
+
+  const tableProps = useTable({
+    columns,
+    data: userData,
+  });
   return (
     <>
       <Grid container spacing={4}>
@@ -53,7 +59,7 @@ const UserListing = ({ url }) => {
                 </Button>
               </Link>
             </div>
-            <Table columns={columns} data={userData} />
+            <Table {...tableProps} />
           </Widget>
         </Grid>
       </Grid>

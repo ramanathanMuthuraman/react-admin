@@ -6,6 +6,7 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
+import { useTable, useRowSelect, usePagination } from "react-table";
 import { useSnackbar } from "notistack";
 import { urlList } from "../../config/urlConfig";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -27,11 +28,8 @@ export default function MyAlerts({ user }) {
   const [isLoading, setIsLoading] = useState(false);
   const [togglePopup, setTogglePopup] = useState(false);
   const [toBeAssignedData, setToBeAssignedData] = useState([]);
-  const [selectedRows, setSelectedRows] = useState([]);
+
   const [selectedStatus, setSelectedStatus] = useState(alertStatus[0]);
-  const onRowSelectionChange = (selectedItems) => {
-    setSelectedRows(selectedItems);
-  };
   const onUpdateStatus = () => {
     setTogglePopup(true);
   };
@@ -63,7 +61,7 @@ export default function MyAlerts({ user }) {
     service({
       method: "put",
       url: urlList.alert,
-      data: selectedRows.map((row) => {
+      data: selectedFlatRows.map((row) => {
         return {
           id: row.values.id,
           alertId: row.values.alertId,
@@ -93,6 +91,19 @@ export default function MyAlerts({ user }) {
     getAlerts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enqueueSnackbar]);
+
+  const { selectedFlatRows, ...tableProps } = useTable(
+    {
+      columns,
+      data: toBeAssignedData,
+      initialState: {
+        hiddenColumns: ["id", "dateCreated"],
+      },
+    },
+    usePagination,
+    useRowSelect,
+    hooksCallback,
+  );
   return (
     <>
       <CustomDialog
@@ -103,12 +114,12 @@ export default function MyAlerts({ user }) {
         <Grid container direction="column" justify="center" alignItems="center">
           <Grid item>
             <DialogContentText>
-              Update {selectedRows.length} alert status
+              Update {selectedFlatRows.length} alert status
             </DialogContentText>
           </Grid>
           <Grid item>
             <DialogContentText className={classes.centerAlignText}>
-              {selectedRows.map((row) => row.values.alertId).join(",")}
+              {selectedFlatRows.map((row) => row.values.alertId).join(",")}
             </DialogContentText>
           </Grid>
 
@@ -164,19 +175,13 @@ export default function MyAlerts({ user }) {
             variant="contained"
             color="primary"
             onClick={onUpdateStatus}
-            disabled={!selectedRows || selectedRows.length === 0}
+            disabled={!selectedFlatRows || selectedFlatRows.length === 0}
           >
             Update Status
           </Button>
         </Grid>
       </Grid>
-      <Table
-        columns={columns}
-        data={toBeAssignedData}
-        hooksCallback={hooksCallback}
-        onRowSelectionChange={onRowSelectionChange}
-        hiddenColumns={["id", "dateCreated"]}
-      />
+      <Table {...tableProps} />
     </>
   );
 }

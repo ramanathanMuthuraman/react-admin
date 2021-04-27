@@ -7,6 +7,7 @@ import {
   CircularProgress,
   TextField,
 } from "@material-ui/core";
+import { useTable, useRowSelect, usePagination } from "react-table";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import { useSnackbar } from "notistack";
@@ -23,7 +24,7 @@ import PageTitle from "../../components/PageTitle/PageTitle";
 import Table from "../../components/Table/Table.js";
 import CustomDialog from "../../components/CustomDialog/CustomDialog";
 import columns from "./columns";
-import IndeterminateCheckbox from "../../components/IndeterminateCheckbox/IndeterminateCheckbox";
+import { hooksCallback } from "../../components/Table/utils";
 
 const filters = [
   {
@@ -42,7 +43,6 @@ export default function AlertManagement() {
   const [userData, setUserData] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
   const [selectedFilter, setSelectedFilter] = useState(filters[0].key);
-  const [selectedRows, setSelectedRows] = useState([]);
   const [togglePopup, setTogglePopup] = useState(false);
   const [isUserAssignLoading, setIsUserAssignLoading] = useState(false);
   const getUsers = () => {
@@ -84,7 +84,7 @@ export default function AlertManagement() {
     service({
       method: "post",
       url: `${urlList.alert}/${selectedUser}/assign`,
-      data: selectedRows.map((row) => row.values.id),
+      data: selectedFlatRows.map((row) => row.values.id),
     })
       .then(function () {
         enqueueSnackbar("Assigned successfully", {
@@ -106,61 +106,12 @@ export default function AlertManagement() {
       });
   };
 
-  const hooksCallback = (hooks) => {
-    hooks.visibleColumns.push((columns) => [
-      // Let's make a column for selection
-      {
-        id: "selection",
-        width: 100,
-        // The header can use the table's getToggleAllRowsSelectedProps method
-        // to render a checkbox
-        Header: (props) => {
-          const { getToggleAllRowsSelectedProps } = props;
-          const { onChange, ...rest } = getToggleAllRowsSelectedProps();
-          const onCheckboxSelectionUpdate = (event) => {
-            onChange(event);
-          };
-          return (
-            <div>
-              <IndeterminateCheckbox
-                {...rest}
-                onChange={onCheckboxSelectionUpdate}
-              />
-            </div>
-          );
-        },
-        // The cell can use the individual row's getToggleRowSelectedProps method
-        // to the render a checkbox
-        Cell: (props) => {
-          const { row } = props;
-          const { onChange, ...rest } = row.getToggleRowSelectedProps();
-          const onCheckboxSelectionUpdate = (event) => {
-            onChange(event);
-          };
-          return (
-            <div>
-              <IndeterminateCheckbox
-                {...rest}
-                onChange={onCheckboxSelectionUpdate}
-              />
-            </div>
-          );
-        },
-      },
-      ...columns,
-    ]);
-  };
-
   const handleClose = () => {
     setTogglePopup(false);
   };
 
   const onAssign = () => {
     setTogglePopup(true);
-  };
-
-  const onRowSelectionChange = (selectedItems) => {
-    setSelectedRows(selectedItems);
   };
 
   const handleChange = (event) => {
@@ -170,6 +121,19 @@ export default function AlertManagement() {
   const onFilterChange = (event) => {
     setSelectedFilter(event.target.value);
   };
+
+  const { selectedFlatRows, ...tableProps } = useTable(
+    {
+      columns,
+      data: toBeAssignedData,
+      initialState: {
+        hiddenColumns: ["id", "dateCreated"],
+      },
+    },
+    usePagination,
+    useRowSelect,
+    hooksCallback,
+  );
 
   return (
     <>
@@ -182,12 +146,12 @@ export default function AlertManagement() {
         <Grid container direction="column" justify="center" alignItems="center">
           <Grid item>
             <DialogContentText>
-              Assign {selectedRows.length} alerts
+              Assign {selectedFlatRows.length} alerts
             </DialogContentText>
           </Grid>
           <Grid item>
             <DialogContentText className={classes.centerAlignText}>
-              {selectedRows.map((row) => row.values.alertId).join(",")}
+              {selectedFlatRows.map((row) => row.values.alertId).join(",")}
             </DialogContentText>
           </Grid>
 
@@ -247,7 +211,7 @@ export default function AlertManagement() {
                   variant="contained"
                   color="primary"
                   onClick={onAssign}
-                  disabled={!selectedRows || selectedRows.length === 0}
+                  disabled={!selectedFlatRows || selectedFlatRows.length === 0}
                 >
                   Assign user
                 </Button>
@@ -271,13 +235,7 @@ export default function AlertManagement() {
                 </TextField>
               </Grid>
             </Grid>
-            <Table
-              columns={columns}
-              data={toBeAssignedData}
-              hooksCallback={hooksCallback}
-              onRowSelectionChange={onRowSelectionChange}
-              hiddenColumns={["id", "dateCreated"]}
-            />
+            <Table {...tableProps} />
           </Widget>
         </Grid>
       </Grid>

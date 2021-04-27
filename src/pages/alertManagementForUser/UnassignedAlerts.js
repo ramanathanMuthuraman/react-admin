@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Button } from "@material-ui/core";
+import { useTable, useRowSelect, usePagination } from "react-table";
 
 import { useSnackbar } from "notistack";
 import { urlList } from "../../config/urlConfig";
@@ -17,11 +18,6 @@ export default function UnassignedAlerts({ user }) {
   const { setGlobalSpinner } = useLoader();
   const { enqueueSnackbar } = useSnackbar();
   const [toBeAssignedData, setToBeAssignedData] = useState([]);
-  const [selectedRows, setSelectedRows] = useState([]);
-
-  const onRowSelectionChange = (selectedItems) => {
-    setSelectedRows(selectedItems);
-  };
 
   const getAlerts = () => {
     setGlobalSpinner(true);
@@ -44,7 +40,7 @@ export default function UnassignedAlerts({ user }) {
     service({
       method: "post",
       url: `${urlList.alert}/${user.userName}/assign`,
-      data: selectedRows.map((row) => row.values.id),
+      data: selectedFlatRows.map((row) => row.values.id),
     })
       .then(function () {
         enqueueSnackbar("Assigned successfully", {
@@ -67,6 +63,18 @@ export default function UnassignedAlerts({ user }) {
     getAlerts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enqueueSnackbar]);
+  const { selectedFlatRows, ...tableProps } = useTable(
+    {
+      columns,
+      data: toBeAssignedData,
+      initialState: {
+        hiddenColumns: ["id", "dateCreated"],
+      },
+    },
+    usePagination,
+    useRowSelect,
+    hooksCallback,
+  );
   return (
     <>
       <Grid
@@ -80,19 +88,13 @@ export default function UnassignedAlerts({ user }) {
             variant="contained"
             color="primary"
             onClick={assignUser}
-            disabled={!selectedRows || selectedRows.length === 0}
+            disabled={!selectedFlatRows || selectedFlatRows.length === 0}
           >
             Assign to myself
           </Button>
         </Grid>
       </Grid>
-      <Table
-        columns={columns}
-        data={toBeAssignedData}
-        hooksCallback={hooksCallback}
-        onRowSelectionChange={onRowSelectionChange}
-        hiddenColumns={["id", "dateCreated"]}
-      />
+      <Table {...tableProps} />
     </>
   );
 }
