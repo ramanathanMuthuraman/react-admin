@@ -11,6 +11,8 @@ import useLoader from "../../hooks/useLoader";
 import Table from "../../components/Table/Table.js";
 import { hooksCallback } from "../../components/Table/utils";
 
+import { PAGE_SIZE } from "../../constants/constants";
+
 import columns from "./columns";
 
 export default function UnassignedAlerts({ user }) {
@@ -18,6 +20,7 @@ export default function UnassignedAlerts({ user }) {
   const { setGlobalSpinner } = useLoader();
   const { enqueueSnackbar } = useSnackbar();
   const [toBeAssignedData, setToBeAssignedData] = useState([]);
+  const [totalPageCount, setTotalPageCount] = useState(0);
 
   const getAlerts = () => {
     setGlobalSpinner(true);
@@ -27,6 +30,7 @@ export default function UnassignedAlerts({ user }) {
     })
       .then(function (response = {}) {
         setToBeAssignedData(response.remainingAlertAssignToUsr || []);
+        setTotalPageCount(response.totalPage || 0);
       })
       .catch(function () {
         enqueueSnackbar("Failed to fetch data", { variant: "error" });
@@ -69,7 +73,10 @@ export default function UnassignedAlerts({ user }) {
       data: toBeAssignedData,
       initialState: {
         hiddenColumns: ["id", "dateCreated"],
+        pageIndex: 0,
+        pageSize: PAGE_SIZE,
       },
+      pageCount: totalPageCount,
     },
     usePagination,
     useRowSelect,

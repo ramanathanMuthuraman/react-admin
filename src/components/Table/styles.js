@@ -4,6 +4,9 @@ import TableCell from "@material-ui/core/TableCell";
 
 export default makeStyles((theme) => ({
   container: {},
+  paginationContainer: {
+    paddingBottom: "30px",
+  },
 }));
 
 const StyledTableCell = withStyles((theme) => ({

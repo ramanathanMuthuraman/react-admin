@@ -6,7 +6,7 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
-import { useTable, useRowSelect, usePagination } from "react-table";
+import { useTable, useRowSelect } from "react-table";
 import { useSnackbar } from "notistack";
 import { urlList } from "../../config/urlConfig";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -100,7 +100,6 @@ export default function MyAlerts({ user }) {
         hiddenColumns: ["id", "dateCreated"],
       },
     },
-    usePagination,
     useRowSelect,
     hooksCallback,
   );
