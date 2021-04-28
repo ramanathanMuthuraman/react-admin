@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 // import { makeStyles } from "@material-ui/core/styles";
 import { Table, TableRow, TableHead, TableBody, Grid } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
+import { NOOP } from "../../constants/constants";
 import useStyles, { StyledTableRow, StyledTableCell } from "./styles";
 
 export default function TableComponent({
@@ -15,16 +16,24 @@ export default function TableComponent({
   state,
   pageCount,
   gotoPage,
+  onPageChangeCallback = NOOP,
 }) {
   var classes = useStyles();
   const noDataMessage = noDataText || "No records found";
   const tableData = page || rows;
+
+  useEffect(() => {
+    onPageChangeCallback(state.pageIndex);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.pageIndex]);
+
   if (!tableData || tableData.length === 0) {
     return <>{noDataMessage}</>;
   }
   const onPageChange = (event, value) => {
     gotoPage(value - 1);
   };
+
   return (
     <>
       {page && (

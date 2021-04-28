@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Grid, Button } from "@material-ui/core";
 import { useTable, useRowSelect, usePagination } from "react-table";
 
@@ -22,11 +22,11 @@ export default function UnassignedAlerts({ user }) {
   const [toBeAssignedData, setToBeAssignedData] = useState([]);
   const [totalPageCount, setTotalPageCount] = useState(0);
 
-  const getAlerts = () => {
+  const getAlerts = (pageIndex) => {
     setGlobalSpinner(true);
     service({
       method: "get",
-      url: urlList.alert,
+      url: `${urlList.alert}?pageNum=${pageIndex + 1}&pageSize=${PAGE_SIZE}`,
     })
       .then(function (response = {}) {
         setToBeAssignedData(response.remainingAlertAssignToUsr || []);
@@ -63,10 +63,6 @@ export default function UnassignedAlerts({ user }) {
         setGlobalSpinner(true);
       });
   };
-  useEffect(() => {
-    getAlerts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [enqueueSnackbar]);
   const { selectedFlatRows, ...tableProps } = useTable(
     {
       columns,
@@ -76,6 +72,7 @@ export default function UnassignedAlerts({ user }) {
         pageIndex: 0,
         pageSize: PAGE_SIZE,
       },
+      manualPagination: true,
       pageCount: totalPageCount,
     },
     usePagination,
@@ -101,7 +98,7 @@ export default function UnassignedAlerts({ user }) {
           </Button>
         </Grid>
       </Grid>
-      <Table {...tableProps} />
+      <Table {...tableProps} onPageChangeCallback={getAlerts} />
     </>
   );
 }
