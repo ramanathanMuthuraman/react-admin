@@ -7,6 +7,7 @@ const urlList = {
   alert: "/alert",
   user: "/user",
   changePassword: "/user/changepassword",
+  cusomerId: "/alert/customerId",
 };
 
 export { BASE_URL, urlList };

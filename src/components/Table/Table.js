@@ -23,7 +23,7 @@ export default function TableComponent({
   const tableData = page || rows;
 
   useEffect(() => {
-    onPageChangeCallback(state.pageIndex);
+    onPageChangeCallback();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.pageIndex]);
 
@@ -36,7 +36,7 @@ export default function TableComponent({
 
   return (
     <>
-      {page && (
+      {pageCount > 0 && (
         <Grid
           container
           className={classes.paginationContainer}

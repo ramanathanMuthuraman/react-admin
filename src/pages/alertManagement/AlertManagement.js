@@ -5,7 +5,7 @@ import {
   Select,
   MenuItem,
   CircularProgress,
-  TextField,
+  // TextField,
 } from "@material-ui/core";
 import { useTable, useRowSelect, usePagination } from "react-table";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -15,7 +15,6 @@ import { urlList } from "../../config/urlConfig";
 import service from "../../utils/serviceUtils";
 import useLoader from "../../hooks/useLoader";
 import { PAGE_SIZE } from "../../constants/constants";
-
 // styles
 import useStyles from "./styles";
 
@@ -26,15 +25,16 @@ import Table from "../../components/Table/Table.js";
 import CustomDialog from "../../components/CustomDialog/CustomDialog";
 import columns from "./columns";
 import { hooksCallback } from "../../components/Table/utils";
+import CustomerIdFilter from "../filters/CustomerIdFilter";
 
-const filters = [
-  {
-    key: "All",
-  },
-  {
-    key: "Unassigned",
-  },
-];
+// const filters = [
+//   {
+//     key: "All",
+//   },
+//   {
+//     key: "Unassigned",
+//   },
+// ];
 
 export default function AlertManagement() {
   var classes = useStyles();
@@ -43,10 +43,29 @@ export default function AlertManagement() {
   const [toBeAssignedData, setToBeAssignedData] = useState([]);
   const [userData, setUserData] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
-  const [selectedFilter, setSelectedFilter] = useState(filters[0].key);
+  // const [selectedFilter, setSelectedFilter] = useState(filters[0].key);
   const [togglePopup, setTogglePopup] = useState(false);
   const [isUserAssignLoading, setIsUserAssignLoading] = useState(false);
   const [totalPageCount, setTotalPageCount] = useState(0);
+  const [selectedCusomerId, setSelectedCusomerId] = useState(null);
+  const isFilteredBasedOnCustomerId = !!selectedCusomerId;
+  const { selectedFlatRows, ...tableProps } = useTable(
+    {
+      columns,
+      data: toBeAssignedData,
+      initialState: {
+        hiddenColumns: ["id", "dateCreated"],
+        pageIndex: 0,
+        pageSize: PAGE_SIZE,
+      },
+      manualPagination: true,
+      pageCount: totalPageCount,
+    },
+    usePagination,
+    useRowSelect,
+    hooksCallback,
+  );
+  const { state } = tableProps;
   const getUsers = () => {
     service({
       method: "get",
@@ -59,14 +78,26 @@ export default function AlertManagement() {
         enqueueSnackbar("Failed to fetch data", { variant: "error" });
       });
   };
-  const getAlerts = (pageIndex) => {
+  const getAlerts = () => {
     setGlobalSpinner(true);
+    const alertsUrl = `${urlList.alert}?pageNum=${
+      state.pageIndex + 1
+    }&pageSize=${PAGE_SIZE}`;
+    const alertsUrlForCustomerId = `${urlList.alert}/${selectedCusomerId}`;
     service({
       method: "get",
-      url: `${urlList.alert}?pageNum=${pageIndex + 1}&pageSize=${PAGE_SIZE}`,
+      url: isFilteredBasedOnCustomerId ? alertsUrlForCustomerId : alertsUrl,
     })
       .then(function (response = {}) {
-        setToBeAssignedData(response.remainingAlertAssignToUsr || []);
+        let data, totalPageCount;
+        if (isFilteredBasedOnCustomerId) {
+          data = response;
+          totalPageCount = response.length;
+        } else {
+          data = response.remainingAlertAssignToUsr;
+          totalPageCount = response.totalPage.length;
+        }
+        setToBeAssignedData(data || []);
         setTotalPageCount(response.totalPage || 0);
       })
       .catch(function () {
@@ -76,10 +107,17 @@ export default function AlertManagement() {
         setGlobalSpinner(false);
       });
   };
+
   useEffect(() => {
     getUsers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enqueueSnackbar]);
+  useEffect(() => {
+    if (selectedCusomerId !== null) {
+      getAlerts();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCusomerId]);
 
   const assignUser = () => {
     setIsUserAssignLoading(true);
@@ -120,26 +158,13 @@ export default function AlertManagement() {
     setSelectedUser(event.target.value);
   };
 
-  const onFilterChange = (event) => {
-    setSelectedFilter(event.target.value);
-  };
+  // const onFilterChange = (event) => {
+  //   setSelectedFilter(event.target.value);
+  // };
 
-  const { selectedFlatRows, ...tableProps } = useTable(
-    {
-      columns,
-      data: toBeAssignedData,
-      initialState: {
-        hiddenColumns: ["id", "dateCreated"],
-        pageIndex: 0,
-        pageSize: PAGE_SIZE,
-      },
-      manualPagination: true,
-      pageCount: totalPageCount,
-    },
-    usePagination,
-    useRowSelect,
-    hooksCallback,
-  );
+  const onCusomerIdChange = (value) => {
+    setSelectedCusomerId(value);
+  };
 
   return (
     <>
@@ -223,6 +248,9 @@ export default function AlertManagement() {
                 </Button>
               </Grid>
               <Grid item>
+                <CustomerIdFilter onChange={onCusomerIdChange} />
+              </Grid>
+              {/* <Grid item>
                 <TextField
                   className={classes.filterDropdDown}
                   id="filter-alerts"
@@ -239,7 +267,7 @@ export default function AlertManagement() {
                     );
                   })}
                 </TextField>
-              </Grid>
+              </Grid> */}
             </Grid>
             <Table {...tableProps} onPageChangeCallback={getAlerts} />
           </Widget>
