@@ -14,6 +14,7 @@ import { useSnackbar } from "notistack";
 import { urlList } from "../../config/urlConfig";
 import service from "../../utils/serviceUtils";
 import useLoader from "../../hooks/useLoader";
+import { PAGE_SIZE } from "../../constants/constants";
 
 // styles
 import useStyles from "./styles";
@@ -45,6 +46,7 @@ export default function AlertManagement() {
   const [selectedFilter, setSelectedFilter] = useState(filters[0].key);
   const [togglePopup, setTogglePopup] = useState(false);
   const [isUserAssignLoading, setIsUserAssignLoading] = useState(false);
+  const [totalPageCount, setTotalPageCount] = useState(0);
   const getUsers = () => {
     service({
       method: "get",
@@ -57,14 +59,15 @@ export default function AlertManagement() {
         enqueueSnackbar("Failed to fetch data", { variant: "error" });
       });
   };
-  const getAlerts = () => {
+  const getAlerts = (pageIndex) => {
     setGlobalSpinner(true);
     service({
       method: "get",
-      url: urlList.alert,
+      url: `${urlList.alert}?pageNum=${pageIndex + 1}&pageSize=${PAGE_SIZE}`,
     })
       .then(function (response = {}) {
         setToBeAssignedData(response.remainingAlertAssignToUsr || []);
+        setTotalPageCount(response.totalPage || 0);
       })
       .catch(function () {
         enqueueSnackbar("Failed to fetch data", { variant: "error" });
@@ -75,7 +78,6 @@ export default function AlertManagement() {
   };
   useEffect(() => {
     getUsers();
-    getAlerts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enqueueSnackbar]);
 
@@ -128,7 +130,11 @@ export default function AlertManagement() {
       data: toBeAssignedData,
       initialState: {
         hiddenColumns: ["id", "dateCreated"],
+        pageIndex: 0,
+        pageSize: PAGE_SIZE,
       },
+      manualPagination: true,
+      pageCount: totalPageCount,
     },
     usePagination,
     useRowSelect,
@@ -235,7 +241,7 @@ export default function AlertManagement() {
                 </TextField>
               </Grid>
             </Grid>
-            <Table {...tableProps} />
+            <Table {...tableProps} onPageChangeCallback={getAlerts} />
           </Widget>
         </Grid>
       </Grid>
