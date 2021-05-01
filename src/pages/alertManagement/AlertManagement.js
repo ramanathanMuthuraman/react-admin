@@ -25,7 +25,7 @@ import Table from "../../components/Table/Table.js";
 import CustomDialog from "../../components/CustomDialog/CustomDialog";
 import columns from "./columns";
 import { hooksCallback } from "../../components/Table/utils";
-import CustomerIdFilter from "../filters/CustomerIdFilter";
+// import CustomerIdFilter from "../filters/CustomerIdFilter";
 
 // const filters = [
 //   {
@@ -47,7 +47,7 @@ export default function AlertManagement() {
   const [togglePopup, setTogglePopup] = useState(false);
   const [isUserAssignLoading, setIsUserAssignLoading] = useState(false);
   const [totalPageCount, setTotalPageCount] = useState(0);
-  const [selectedCusomerId, setSelectedCusomerId] = useState(null);
+  const [selectedCusomerId] = useState(null);
   const isFilteredBasedOnCustomerId = !!selectedCusomerId;
   const { selectedFlatRows, ...tableProps } = useTable(
     {
@@ -89,16 +89,16 @@ export default function AlertManagement() {
       url: isFilteredBasedOnCustomerId ? alertsUrlForCustomerId : alertsUrl,
     })
       .then(function (response = {}) {
-        let data, totalPageCount;
+        let data, totalPage;
         if (isFilteredBasedOnCustomerId) {
           data = response;
-          totalPageCount = response.length;
+          totalPage = response.length;
         } else {
           data = response.remainingAlertAssignToUsr;
-          totalPageCount = response.totalPage.length;
+          totalPage = response.totalPage;
         }
         setToBeAssignedData(data || []);
-        setTotalPageCount(response.totalPage || 0);
+        setTotalPageCount(totalPage || 0);
       })
       .catch(function () {
         enqueueSnackbar("Failed to fetch data", { variant: "error" });
@@ -162,9 +162,9 @@ export default function AlertManagement() {
   //   setSelectedFilter(event.target.value);
   // };
 
-  const onCusomerIdChange = (value) => {
-    setSelectedCusomerId(value);
-  };
+  // const onCusomerIdChange = (value) => {
+  //   setSelectedCusomerId(value);
+  // };
 
   return (
     <>
@@ -247,9 +247,9 @@ export default function AlertManagement() {
                   Assign user
                 </Button>
               </Grid>
-              <Grid item>
+              {/* <Grid item>
                 <CustomerIdFilter onChange={onCusomerIdChange} />
-              </Grid>
+              </Grid> */}
               {/* <Grid item>
                 <TextField
                   className={classes.filterDropdDown}
