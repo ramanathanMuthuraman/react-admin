@@ -36,7 +36,7 @@ export default function TableComponent({
 
   return (
     <>
-      {pageCount > 0 && (
+      {pageCount > 1 && (
         <Grid
           container
           className={classes.paginationContainer}
