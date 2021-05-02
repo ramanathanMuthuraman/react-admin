@@ -92,7 +92,7 @@ export default function AlertManagement() {
         let data, totalPage;
         if (isFilteredBasedOnCustomerId) {
           data = response;
-          totalPage = response.length;
+          totalPage = 1;
         } else {
           data = response.remainingAlertAssignToUsr;
           totalPage = response.totalPage;

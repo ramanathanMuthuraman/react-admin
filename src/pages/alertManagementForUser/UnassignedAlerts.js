@@ -62,7 +62,7 @@ export default function UnassignedAlerts({ user }) {
         let data, totalPage;
         if (isFilteredBasedOnCustomerId) {
           data = response;
-          totalPage = response.length;
+          totalPage = 1;
         } else {
           data = response.remainingAlertAssignToUsr;
           totalPage = response.totalPage;
