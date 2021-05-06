@@ -53,7 +53,7 @@ export default function UnassignedAlerts({ user }) {
     const alertsUrl = `${urlList.alert}?pageNum=${
       state.pageIndex + 1
     }&pageSize=${PAGE_SIZE}`;
-    const alertsUrlForCustomerId = `${urlList.alert}/${selectedCusomerId}`;
+    const alertsUrlForCustomerId = `${urlList.alert}/customer?customerId=${selectedCusomerId}`;
     service({
       method: "get",
       url: isFilteredBasedOnCustomerId ? alertsUrlForCustomerId : alertsUrl,
