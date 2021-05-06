@@ -6,7 +6,7 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
-import { useTable, useRowSelect } from "react-table";
+import { useTable, useRowSelect, usePagination } from "react-table";
 import { useSnackbar } from "notistack";
 import { urlList } from "../../config/urlConfig";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -15,6 +15,7 @@ import service from "../../utils/serviceUtils";
 import useStyles from "./styles";
 import useLoader from "../../hooks/useLoader";
 import Table from "../../components/Table/Table.js";
+import { PAGE_SIZE } from "../../constants/constants";
 import CustomDialog from "../../components/CustomDialog/CustomDialog";
 import { hooksCallback } from "../../components/Table/utils";
 import columns from "./columns";
@@ -28,6 +29,7 @@ export default function MyAlerts({ user }) {
   const [isLoading, setIsLoading] = useState(false);
   const [togglePopup, setTogglePopup] = useState(false);
   const [toBeAssignedData, setToBeAssignedData] = useState([]);
+  const [totalPageCount, setTotalPageCount] = useState(0);
 
   const [selectedStatus, setSelectedStatus] = useState(alertStatus[0]);
   const onUpdateStatus = () => {
@@ -40,14 +42,36 @@ export default function MyAlerts({ user }) {
     setSelectedStatus(event.target.value);
   };
 
+  const { selectedFlatRows, ...tableProps } = useTable(
+    {
+      columns,
+      data: toBeAssignedData,
+      initialState: {
+        hiddenColumns: ["id", "dateCreated"],
+        pageIndex: 0,
+        pageSize: PAGE_SIZE,
+      },
+      manualPagination: true,
+      pageCount: totalPageCount,
+    },
+    usePagination,
+    useRowSelect,
+    hooksCallback,
+  );
+
+  const { state } = tableProps;
+
   const getAlerts = () => {
     setGlobalSpinner(true);
     service({
       method: "get",
-      url: `${urlList.alert}/${user.userName}/user`,
+      url: `${urlList.alert}/user?user=${user.userName}&pageNum=${
+        state.pageIndex + 1
+      }&pageSize=${PAGE_SIZE}`,
     })
       .then(function (response = {}) {
-        setToBeAssignedData(response.allAlerts || []);
+        setToBeAssignedData(response.assignedAlerts || []);
+        setTotalPageCount(response.totalPage || 0);
       })
       .catch(function () {
         enqueueSnackbar("Failed to fetch data", { variant: "error" });
@@ -87,22 +111,7 @@ export default function MyAlerts({ user }) {
         handleClose();
       });
   };
-  useEffect(() => {
-    getAlerts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [enqueueSnackbar]);
 
-  const { selectedFlatRows, ...tableProps } = useTable(
-    {
-      columns,
-      data: toBeAssignedData,
-      initialState: {
-        hiddenColumns: ["id", "dateCreated"],
-      },
-    },
-    useRowSelect,
-    hooksCallback,
-  );
   return (
     <>
       <CustomDialog
@@ -180,7 +189,7 @@ export default function MyAlerts({ user }) {
           </Button>
         </Grid>
       </Grid>
-      <Table {...tableProps} />
+      <Table {...tableProps} onPageChangeCallback={getAlerts} />
     </>
   );
 }
