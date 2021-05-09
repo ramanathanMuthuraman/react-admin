@@ -4,7 +4,9 @@ import FileManagement from "../pages/fileManagement/FileManagement";
 import AlertManagement from "../pages/alertManagement/AlertManagement";
 import ChangePassword from "../pages/changePassword/ChangePassword";
 import AlertManagementForUser from "../pages/alertManagementForUser/AlertManagementForUser";
-import CRA from "../pages/cra/CRA";
+import CRAAdmin from "../pages/cra/CRAAdmin";
+import CRAUser from "../pages/cra/CRAUser";
+
 import {
   Home as HomeIcon,
   InsertDriveFile as InsertDriveFileIcon,
@@ -47,7 +49,15 @@ const routes = [
     icon: WarningIcon,
   },
   {
-    component: CRA,
+    component: CRAAdmin,
+    path: "/app/cra",
+    label: "CRA",
+    id: "CRA",
+    permission: [Roles.SUPER_ADMIN],
+    icon: AssessmentIcon,
+  },
+  {
+    component: CRAUser,
     path: "/app/cra",
     label: "CRA",
     id: "CRA",

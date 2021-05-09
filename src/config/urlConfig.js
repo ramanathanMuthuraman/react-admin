@@ -8,6 +8,7 @@ const urlList = {
   user: "/user",
   changePassword: "/user/changepassword",
   cusomerId: "/alert/customerId",
+  cra: "/CRA",
 };
 
 export { BASE_URL, urlList };
