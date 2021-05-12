@@ -9,6 +9,8 @@ const urlList = {
   changePassword: "/user/changepassword",
   cusomerId: "/alert/customerId",
   cra: "/CRA",
+  craUpload: "/CRA/upload",
+  craDownload: "/CRA/export",
 };
 
 export { BASE_URL, urlList };

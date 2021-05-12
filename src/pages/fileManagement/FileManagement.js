@@ -25,6 +25,14 @@ const options = [
     id: "team",
     label: "Download team report",
   },
+  {
+    id: "craUpload",
+    label: "Upload CRA",
+  },
+  {
+    id: "craDownload",
+    label: "Download CRA",
+  },
 ];
 
 export default function FileManagement(props) {
@@ -39,9 +47,13 @@ export default function FileManagement(props) {
   const onFileUpload = () => {
     let formData = new FormData();
     formData.append("file", selectedFile[0]);
+    const api =
+      selectedOption === options[0].id
+        ? urlList.alertUpload
+        : urlList.craUpload;
     service({
       method: "post",
-      url: urlList.alertUpload,
+      url: api,
       data: formData,
       headers: {
         "Content-Type": "multipart/form-data",
@@ -62,7 +74,11 @@ export default function FileManagement(props) {
   };
 
   const downloadTeamReport = () => {
-    window.open(`${BASE_URL}${urlList.alertExportForTeam}`);
+    const url =
+      selectedOption === options[1].id
+        ? `${BASE_URL}${urlList.alertExportForTeam}`
+        : `${BASE_URL}${urlList.craDownload}`;
+    window.open(url);
   };
 
   return (
@@ -98,9 +114,10 @@ export default function FileManagement(props) {
                 </Select>
               </FormControl>
               <div className={classes.optionDetails}>
-                {selectedOption === options[0].id && (
+                {(selectedOption === options[0].id ||
+                  selectedOption === options[2].id) && (
                   <>
-                    <FileUpload onChange={onFileChange} />
+                    <FileUpload key={selectedOption} onChange={onFileChange} />
                     <>
                       {selectedFile.map((file) => {
                         return <span key="file.name">{file.name}</span>;
@@ -117,10 +134,11 @@ export default function FileManagement(props) {
                     </Button>
                   </>
                 )}
-                {selectedOption === options[1].id && (
+                {(selectedOption === options[1].id ||
+                  selectedOption === options[3].id) && (
                   <>
                     <Button
-                      key={2}
+                      key={selectedOption}
                       className={classes.action}
                       variant="contained"
                       color="primary"
