@@ -72,7 +72,11 @@ export default function AlertManagement() {
       url: urlList.user,
     })
       .then(function (response = {}) {
-        setUserData(response || []);
+        const data = response || [];
+        const usersWithAM = data.filter((item) => {
+          return item.modules.includes("AM");
+        });
+        setUserData(usersWithAM);
       })
       .catch(function () {
         enqueueSnackbar("Failed to fetch data", { variant: "error" });
