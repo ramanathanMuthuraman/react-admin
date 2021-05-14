@@ -99,6 +99,7 @@ export default function UnassignedAlerts() {
             className={classes.editButton}
             variant="contained"
             color="primary"
+            disabled={selectedFlatRows.length !== 1}
             onClick={() => {}}
           >
             Edit CRA
