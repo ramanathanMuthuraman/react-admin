@@ -13,4 +13,10 @@ export default makeStyles(() => ({
   editButton: {
     margin: "20px 0",
   },
+  moduleFormControl: {
+    width: "100%",
+  },
+  addAction: {
+    marginTop: "40px",
+  },
 }));
