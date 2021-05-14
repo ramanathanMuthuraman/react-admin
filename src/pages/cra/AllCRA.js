@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
 import { Grid, Button } from "@material-ui/core";
 import { useTable, useRowSelect, usePagination } from "react-table";
 
@@ -15,7 +16,7 @@ import { PAGE_SIZE } from "../../constants/constants";
 
 import columns from "./columns";
 
-export default function UnassignedAlerts() {
+const AllCRA = (props) => {
   var classes = useStyles();
   const { setGlobalSpinner } = useLoader();
   const { enqueueSnackbar } = useSnackbar();
@@ -100,7 +101,12 @@ export default function UnassignedAlerts() {
             variant="contained"
             color="primary"
             disabled={selectedFlatRows.length !== 1}
-            onClick={() => {}}
+            onClick={() => {
+              props.history.push({
+                pathname: "/app/cra/create",
+                state: { ...selectedFlatRows[0].values },
+              });
+            }}
           >
             Edit CRA
           </Button>
@@ -110,4 +116,6 @@ export default function UnassignedAlerts() {
       <Table {...tableProps} onPageChangeCallback={getCRA} />
     </>
   );
-}
+};
+
+export default withRouter(AllCRA);

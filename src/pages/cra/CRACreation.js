@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik } from "formik";
 import { useSnackbar } from "notistack";
-import { useHistory } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import {
   Grid,
   Button,
@@ -27,11 +27,31 @@ import {
   CONTROL_AUTOMATION,
 } from "../../constants/constants";
 
-export default function UserGeneration() {
+const CRAGeneration = (props) => {
+  const defaultValues = {
+    remarks: "",
+    circularRefNo: "",
+    circularDate: "",
+    regGuidelines: "",
+    controlDesc: "",
+    breach: "",
+    controlEffectiveness: 1,
+    monitorMechanism: 1,
+    controlAutomation: 1,
+    regulatoryImpact: 1,
+    processImprovement: "",
+    prodName: "",
+    policyDetails: "",
+    relavantPolicy: "",
+    processNote: "",
+    sno: "",
+  };
+  const initialValues = props.location.state
+    ? props.location.state
+    : defaultValues;
   var classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const { setGlobalSpinner } = useLoader();
-  const history = useHistory();
 
   const saveData = (values) => {
     setGlobalSpinner(true);
@@ -50,7 +70,7 @@ export default function UserGeneration() {
           variant: "success",
           preventDuplicate: true,
         });
-        history.push("/app/cra");
+        props.history.push("/app/cra");
       })
       .catch(function () {
         setGlobalSpinner(false);
@@ -61,24 +81,6 @@ export default function UserGeneration() {
       });
   };
 
-  const initialValues = {
-    remarks: "",
-    circularRefNo: "",
-    circularDate: "",
-    regGuidelines: "",
-    controlDesc: "",
-    breach: "",
-    controlEffectiveness: 1,
-    monitorMechanism: 1,
-    controlAutomation: 1,
-    regulatoryImpact: 1,
-    processImprovement: "",
-    prodName: "",
-    policyDetails: "",
-    relavantPolicy: "",
-    processNote: "",
-    sno: "",
-  };
   return (
     <>
       <Formik initialValues={initialValues} onSubmit={saveData}>
@@ -339,4 +341,6 @@ export default function UserGeneration() {
       </Formik>
     </>
   );
-}
+};
+
+export default withRouter(CRAGeneration);
