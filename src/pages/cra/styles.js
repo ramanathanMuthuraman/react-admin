@@ -7,4 +7,10 @@ export default makeStyles(() => ({
   dialogContent: { minWidth: "500px" },
   centerAlignText: { textAlign: "center" },
   filterDropdDown: { minWidth: "100px" },
+  customLink: {
+    textDecoration: "none",
+  },
+  editButton: {
+    margin: "20px 0",
+  },
 }));

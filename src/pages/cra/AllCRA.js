@@ -15,7 +15,7 @@ import { PAGE_SIZE } from "../../constants/constants";
 
 import columns from "./columns";
 
-export default function UnassignedAlerts({ createCRA }) {
+export default function UnassignedAlerts() {
   var classes = useStyles();
   const { setGlobalSpinner } = useLoader();
   const { enqueueSnackbar } = useSnackbar();
@@ -94,14 +94,18 @@ export default function UnassignedAlerts({ createCRA }) {
         spacing={4}
         className={classes.actionContainer}
       >
-        <Grid item>
-          {createCRA && (
-            <Button variant="contained" color="primary" onClick={() => {}}>
-              CREATE CRA
-            </Button>
-          )}
+        <Grid>
+          <Button
+            className={classes.editButton}
+            variant="contained"
+            color="primary"
+            onClick={() => {}}
+          >
+            Edit CRA
+          </Button>
         </Grid>
       </Grid>
+
       <Table {...tableProps} onPageChangeCallback={getCRA} />
     </>
   );
