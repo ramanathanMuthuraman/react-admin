@@ -16,7 +16,6 @@ import CRAForm from "./CRAForm";
 
 const CRAGeneration = (props) => {
   const defaultValues = {
-    remarks: "",
     circularRefNo: "",
     circularDate: "",
     regGuidelines: "",
@@ -46,6 +45,7 @@ const CRAGeneration = (props) => {
       data: {
         ...values,
         circularDate: updatedCircularDate,
+        remarks: "A",
       },
     })
       .then(function () {

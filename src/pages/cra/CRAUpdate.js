@@ -29,6 +29,7 @@ const CRAUpdate = (props) => {
       data: {
         ...values,
         circularDate: updatedCircularDate,
+        remarks: "M",
       },
     })
       .then(function () {

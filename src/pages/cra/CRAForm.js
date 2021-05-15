@@ -44,17 +44,6 @@ const CRAForm = ({ initialValues, onSubmitForm }) => {
                     <Grid container spacing={6}>
                       <Grid item xs={12} sm={6}>
                         <TextField
-                          id="remarks"
-                          name="remarks"
-                          label="Remarks"
-                          fullWidth
-                          autoComplete="given-name"
-                          onChange={handleChange}
-                          value={values.remarks}
-                        />
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <TextField
                           id="circularRefNo"
                           name="circularRefNo"
                           label="Circular Ref No"
