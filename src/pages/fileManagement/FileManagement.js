@@ -19,11 +19,11 @@ import FileUpload from "../../components/FileUpload/FileUpload";
 const options = [
   {
     id: "alert",
-    label: "Upload alert list",
+    label: "Upload Alerts",
   },
   {
     id: "team",
-    label: "Download team report",
+    label: "Download Alerts",
   },
   {
     id: "craUpload",
