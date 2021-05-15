@@ -21,5 +21,6 @@ export default makeStyles(() => ({
   },
   textArea: {
     width: "100%",
+    resize: "none",
   },
 }));
