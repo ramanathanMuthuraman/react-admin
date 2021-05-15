@@ -24,7 +24,7 @@ import {
   CONTROL_AUTOMATION,
 } from "../../constants/constants";
 
-const CRAForm = ({ initialValues, onSubmitForm }) => {
+const CRAForm = ({ initialValues, onSubmitForm, isEditable }) => {
   var classes = useStyles();
   return (
     <>
@@ -44,6 +44,7 @@ const CRAForm = ({ initialValues, onSubmitForm }) => {
                     <Grid container spacing={6}>
                       <Grid item xs={12} sm={6}>
                         <TextField
+                          disabled={isEditable}
                           id="circularRefNo"
                           name="circularRefNo"
                           label="Circular Ref No"
@@ -55,6 +56,7 @@ const CRAForm = ({ initialValues, onSubmitForm }) => {
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <DateInput
+                          disabled={isEditable}
                           id="circularDate"
                           name="circularDate"
                           label="Circular Date"
@@ -66,6 +68,7 @@ const CRAForm = ({ initialValues, onSubmitForm }) => {
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <TextField
+                          disabled={isEditable}
                           id="regGuidelines"
                           name="regGuidelines"
                           label="Reg Guidelines"
@@ -93,6 +96,7 @@ const CRAForm = ({ initialValues, onSubmitForm }) => {
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <TextField
+                          disabled={isEditable}
                           id="breach"
                           name="breach"
                           label="Breach"
@@ -104,6 +108,7 @@ const CRAForm = ({ initialValues, onSubmitForm }) => {
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <TextField
+                          disabled={isEditable}
                           id="processImprovement"
                           name="processImprovement"
                           label="Process Improvement"
@@ -115,6 +120,7 @@ const CRAForm = ({ initialValues, onSubmitForm }) => {
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <TextField
+                          disabled={isEditable}
                           id="prodName"
                           name="prodName"
                           label="Prod Name"
@@ -216,6 +222,7 @@ const CRAForm = ({ initialValues, onSubmitForm }) => {
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <TextField
+                          disabled={isEditable}
                           id="policyDetails"
                           name="policyDetails"
                           label="Policy details"
@@ -227,6 +234,7 @@ const CRAForm = ({ initialValues, onSubmitForm }) => {
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <TextField
+                          disabled={isEditable}
                           id="relavantPolicy"
                           name="relavantPolicy"
                           label="Relavant Policy"
@@ -238,6 +246,7 @@ const CRAForm = ({ initialValues, onSubmitForm }) => {
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <TextField
+                          disabled={isEditable}
                           id="processNote"
                           name="processNote"
                           label="Process Note"
@@ -249,6 +258,7 @@ const CRAForm = ({ initialValues, onSubmitForm }) => {
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <TextField
+                          disabled={isEditable}
                           id="sno"
                           name="sno"
                           label="S No"

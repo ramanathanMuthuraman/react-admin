@@ -52,7 +52,11 @@ const CRAUpdate = (props) => {
   return (
     <>
       <PageTitle title="Modify Regulation" />
-      <CRAForm initialValues={initialValues} onSubmitForm={saveData} />
+      <CRAForm
+        initialValues={initialValues}
+        onSubmitForm={saveData}
+        isEditable
+      />
     </>
   );
 };
