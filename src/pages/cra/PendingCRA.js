@@ -100,7 +100,7 @@ export default function UnassignedAlerts({ user }) {
           className={classes.editButton}
           onClick={() => {}}
         >
-          Approve CRA
+          Approve
         </Button>
       </Grid>
       <Table {...tableProps} onPageChangeCallback={getCRA} />

@@ -95,6 +95,19 @@ const AllCRA = (props) => {
         spacing={4}
         className={classes.actionContainer}
       >
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              props.history.push({
+                pathname: "/app/cra/create",
+              });
+            }}
+          >
+            Add
+          </Button>
+        </Grid>
         <Grid>
           <Button
             className={classes.editButton}
@@ -108,7 +121,7 @@ const AllCRA = (props) => {
               });
             }}
           >
-            Edit CRA
+            Edit
           </Button>
         </Grid>
       </Grid>

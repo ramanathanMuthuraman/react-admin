@@ -1,43 +1,38 @@
 import React, { useState } from "react";
-import { Grid, Tabs, Tab, Button } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Grid, Tabs, Tab } from "@material-ui/core";
+
 import AllCRA from "./AllCRA";
 import PendingCRA from "./PendingCRA";
 import Widget from "../../components/Widget/Widget";
-import useStyles from "./styles";
+import PageTitle from "../../components/PageTitle/PageTitle";
 
 const tabsList = ["All", "Pending"];
-const CRAAdminListing = ({ url }) => {
+const CRAAdminListing = () => {
   const [selectedTab, setSelectedTab] = useState(0);
-  var classes = useStyles();
   return (
-    <Grid container spacing={4}>
-      <Grid item xs={12}>
-        <Widget title="" upperTitle disableWidgetMenu>
-          <Grid item>
-            <Link className={classes.customLink} to={`${url}/create`}>
-              <Button variant="contained" color="primary" onClick={() => {}}>
-                Add CRA
-              </Button>
-            </Link>
-          </Grid>
-          <Tabs
-            value={selectedTab}
-            onChange={(event, value) => {
-              setSelectedTab(value);
-            }}
-            indicatorColor="primary"
-            textColor="primary"
-            centered
-          >
-            {tabsList.map((item) => {
-              return <Tab key={item} label={item} />;
-            })}
-          </Tabs>
-          {selectedTab === 0 ? <AllCRA /> : <PendingCRA />}
-        </Widget>
+    <>
+      <PageTitle title="Compliance Risk Assessment" />
+      <Grid container spacing={4}>
+        <Grid item xs={12}>
+          <Widget title="" upperTitle disableWidgetMenu>
+            <Tabs
+              value={selectedTab}
+              onChange={(event, value) => {
+                setSelectedTab(value);
+              }}
+              indicatorColor="primary"
+              textColor="primary"
+              centered
+            >
+              {tabsList.map((item) => {
+                return <Tab key={item} label={item} />;
+              })}
+            </Tabs>
+            {selectedTab === 0 ? <AllCRA /> : <PendingCRA />}
+          </Widget>
+        </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 };
 

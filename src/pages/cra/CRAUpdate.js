@@ -10,6 +10,7 @@ import useLoader from "../../hooks/useLoader";
 import { urlList } from "../../config/urlConfig";
 import service from "../../utils/serviceUtils";
 import { dateFormatter } from "../../utils/dateUtils";
+import PageTitle from "../../components/PageTitle/PageTitle";
 
 import CRAForm from "./CRAForm";
 
@@ -47,7 +48,12 @@ const CRAUpdate = (props) => {
       });
   };
 
-  return <CRAForm initialValues={initialValues} onSubmitForm={saveData} />;
+  return (
+    <>
+      <PageTitle title="Modify Regulation" />
+      <CRAForm initialValues={initialValues} onSubmitForm={saveData} />
+    </>
+  );
 };
 
 export default withRouter(CRAUpdate);
