@@ -13,25 +13,8 @@ import { dateFormatter } from "../../utils/dateUtils";
 
 import CRAForm from "./CRAForm";
 
-const CRAGeneration = (props) => {
-  const defaultValues = {
-    remarks: "",
-    circularRefNo: "",
-    circularDate: "",
-    regGuidelines: "",
-    controlDesc: "",
-    breach: "",
-    controlEffectiveness: 1,
-    monitorMechanism: 1,
-    controlAutomation: 1,
-    regulatoryImpact: 1,
-    processImprovement: "",
-    prodName: "",
-    policyDetails: "",
-    relavantPolicy: "",
-    processNote: "",
-    sno: "",
-  };
+const CRAUpdate = (props) => {
+  const initialValues = props.location.state;
   const { enqueueSnackbar } = useSnackbar();
   const { setGlobalSpinner } = useLoader();
 
@@ -40,7 +23,7 @@ const CRAGeneration = (props) => {
     const updatedCircularDate = dateFormatter(values.circularDate);
 
     service({
-      method: "post",
+      method: "put",
       url: urlList.cra,
       data: [
         {
@@ -66,7 +49,7 @@ const CRAGeneration = (props) => {
       });
   };
 
-  return <CRAForm initialValues={defaultValues} onSubmitForm={saveData} />;
+  return <CRAForm initialValues={initialValues} onSubmitForm={saveData} />;
 };
 
-export default withRouter(CRAGeneration);
+export default withRouter(CRAUpdate);

@@ -5,6 +5,7 @@ import { Route, Switch, useRouteMatch } from "react-router-dom";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import CRAAdminListing from "./CRAAdminListing";
 import CRACreation from "./CRACreation";
+import CRAUpdate from "./CRAUpdate";
 
 export default function AlertManagement() {
   let { path, url } = useRouteMatch();
@@ -19,7 +20,7 @@ export default function AlertManagement() {
           <CRACreation />
         </Route>
         <Route path={`${path}/edit`}>
-          <>Hi</>
+          <CRAUpdate />
         </Route>
       </Switch>
     </>

@@ -103,7 +103,7 @@ const AllCRA = (props) => {
             disabled={selectedFlatRows.length !== 1}
             onClick={() => {
               props.history.push({
-                pathname: "/app/cra/create",
+                pathname: "/app/cra/edit",
                 state: { ...selectedFlatRows[0].values },
               });
             }}
