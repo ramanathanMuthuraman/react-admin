@@ -21,6 +21,7 @@ import DateInput from "../../components/DateRender/DateInput";
 
 import { urlList } from "../../config/urlConfig";
 import service from "../../utils/serviceUtils";
+import { dateFormatter } from "../../utils/dateUtils";
 import {
   CONTROL_EFFECTIVENESS,
   MONITORING_MECHANISM,
@@ -56,12 +57,15 @@ const CRAGeneration = (props) => {
 
   const saveData = (values) => {
     setGlobalSpinner(true);
+    const updatedCircularDate = dateFormatter(values.circularDate);
+
     service({
       method: "post",
       url: urlList.cra,
       data: [
         {
           ...values,
+          circularDate: updatedCircularDate,
         },
       ],
     })
