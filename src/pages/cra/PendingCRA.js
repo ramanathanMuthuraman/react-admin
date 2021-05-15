@@ -94,11 +94,14 @@ export default function UnassignedAlerts({ user }) {
         spacing={4}
         className={classes.actionContainer}
       >
-        <Grid item>
-          <Button variant="contained" color="primary" onClick={() => {}}>
-            Approve CRA
-          </Button>
-        </Grid>
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.editButton}
+          onClick={() => {}}
+        >
+          Approve CRA
+        </Button>
       </Grid>
       <Table {...tableProps} onPageChangeCallback={getCRA} />
     </>
