@@ -19,4 +19,7 @@ export default makeStyles(() => ({
   addAction: {
     marginTop: "40px",
   },
+  textArea: {
+    width: "100%",
+  },
 }));

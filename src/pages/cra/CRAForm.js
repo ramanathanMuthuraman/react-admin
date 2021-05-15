@@ -9,6 +9,7 @@ import {
   Select,
   InputLabel,
   FormControl,
+  TextareaAutosize,
 } from "@material-ui/core";
 
 import useStyles from "./styles";
@@ -86,7 +87,12 @@ const CRAForm = ({ initialValues, onSubmitForm }) => {
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <TextField
+                        <InputLabel id="controlDesc-label">
+                          Control Description
+                        </InputLabel>
+                        <TextareaAutosize
+                          className={classes.textArea}
+                          rowsMin={5}
                           id="controlDesc"
                           name="controlDesc"
                           label="Control Desc"
