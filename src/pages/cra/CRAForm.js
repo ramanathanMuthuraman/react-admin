@@ -78,22 +78,7 @@ const CRAForm = ({ initialValues, onSubmitForm, isEditable }) => {
                           value={values.regGuidelines}
                         />
                       </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <InputLabel id="controlDesc-label">
-                          Control Description
-                        </InputLabel>
-                        <TextareaAutosize
-                          className={classes.textArea}
-                          rowsMin={5}
-                          id="controlDesc"
-                          name="controlDesc"
-                          label="Control Desc"
-                          fullWidth
-                          autoComplete="employee-id"
-                          onChange={handleChange}
-                          value={values.controlDesc}
-                        />
-                      </Grid>
+
                       <Grid item xs={12} sm={6}>
                         <TextField
                           disabled={isEditable}
@@ -128,6 +113,22 @@ const CRAForm = ({ initialValues, onSubmitForm, isEditable }) => {
                           autoComplete="prodName"
                           onChange={handleChange}
                           value={values.prodName}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <InputLabel id="controlDesc-label">
+                          Control Description
+                        </InputLabel>
+                        <TextareaAutosize
+                          className={classes.textArea}
+                          rowsMin={5}
+                          id="controlDesc"
+                          name="controlDesc"
+                          label="Control Desc"
+                          fullWidth
+                          autoComplete="employee-id"
+                          onChange={handleChange}
+                          value={values.controlDesc}
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
