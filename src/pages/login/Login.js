@@ -74,7 +74,7 @@ function Login(props) {
         <Typography className={classes.logotypeText}>Alert Manager</Typography>
       </div>
       <div className={classes.formContainer}>
-        <div className={classes.form}>
+        <form className={classes.form}>
           <React.Fragment>
             <TextField
               id="username"
@@ -114,6 +114,7 @@ function Login(props) {
                   disabled={
                     loginValue.length === 0 || passwordValue.length === 0
                   }
+                  type="submit"
                   onClick={onLogin}
                   variant="contained"
                   color="primary"
@@ -124,7 +125,7 @@ function Login(props) {
               )}
             </div>
           </React.Fragment>
-        </div>
+        </form>
       </div>
     </Grid>
   );
