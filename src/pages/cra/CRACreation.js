@@ -17,6 +17,7 @@ import useStyles from "./styles";
 // components
 import Widget from "../../components/Widget/Widget";
 import useLoader from "../../hooks/useLoader";
+import DateInput from "../../components/DateRender/DateInput";
 
 import { urlList } from "../../config/urlConfig";
 import service from "../../utils/serviceUtils";
@@ -120,7 +121,7 @@ const CRAGeneration = (props) => {
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <TextField
+                        <DateInput
                           id="circularDate"
                           name="circularDate"
                           label="Circular Date"
