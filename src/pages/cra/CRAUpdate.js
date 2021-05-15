@@ -25,12 +25,10 @@ const CRAUpdate = (props) => {
     service({
       method: "put",
       url: urlList.cra,
-      data: [
-        {
-          ...values,
-          circularDate: updatedCircularDate,
-        },
-      ],
+      data: {
+        ...values,
+        circularDate: updatedCircularDate,
+      },
     })
       .then(function () {
         setGlobalSpinner(false);

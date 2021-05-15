@@ -42,12 +42,10 @@ const CRAGeneration = (props) => {
     service({
       method: "post",
       url: urlList.cra,
-      data: [
-        {
-          ...values,
-          circularDate: updatedCircularDate,
-        },
-      ],
+      data: {
+        ...values,
+        circularDate: updatedCircularDate,
+      },
     })
       .then(function () {
         setGlobalSpinner(false);
