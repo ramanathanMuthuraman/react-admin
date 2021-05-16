@@ -56,7 +56,7 @@ export default function UnassignedAlerts({ user }) {
 
   const getCRA = () => {
     setGlobalSpinner(true);
-    const CRA_URL = `${urlList.cra}?pageNum=${
+    const CRA_URL = `${urlList.cra}/pending?pageNum=${
       state.pageIndex + 1
     }&pageSize=${PAGE_SIZE}`;
     service({
@@ -64,8 +64,8 @@ export default function UnassignedAlerts({ user }) {
       url: CRA_URL,
     })
       .then(function (response = {}) {
-        setToBeAssignedData(response || []);
-        setTotalPageCount(1);
+        setToBeAssignedData(response.cras || []);
+        setTotalPageCount(response.totalPage || 1);
       })
       .catch(function () {
         enqueueSnackbar("Failed to fetch data", { variant: "error" });
@@ -74,30 +74,29 @@ export default function UnassignedAlerts({ user }) {
         setGlobalSpinner(false);
       });
   };
-  // const assignUser = () => {
-  //   setGlobalSpinner(true);
-  //   service({
-  //     method: "post",
-  //     url: `${urlList.alert}/${user.userName}/assign`,
-  //     data: selectedFlatRows.map((row) => row.values.id),
-  //   })
-  //     .then(function () {
-  //       enqueueSnackbar("Assigned successfully", {
-  //         variant: "success",
-  //         preventDuplicate: true,
-  //       });
-  //       getAlerts();
-  //     })
-  //     .catch(function () {
-  //       enqueueSnackbar("Failed to assign", {
-  //         variant: "error",
-  //         preventDuplicate: true,
-  //       });
-  //     })
-  //     .finally(() => {
-  //       setGlobalSpinner(true);
-  //     });
-  // };
+  const approveCRA = () => {
+    setGlobalSpinner(true);
+    service({
+      method: "post",
+      url: `${urlList.cra}/approve`,
+      data: selectedFlatRows.map((row) => row.values.id),
+    })
+      .then(function () {
+        setGlobalSpinner(false);
+        enqueueSnackbar("Approved successfully", {
+          variant: "success",
+          preventDuplicate: true,
+        });
+        getCRA();
+      })
+      .catch(function () {
+        setGlobalSpinner(false);
+        enqueueSnackbar("Failed to approve", {
+          variant: "error",
+          preventDuplicate: true,
+        });
+      });
+  };
 
   return (
     <>
@@ -111,7 +110,8 @@ export default function UnassignedAlerts({ user }) {
           variant="contained"
           color="primary"
           className={classes.editButton}
-          onClick={() => {}}
+          onClick={approveCRA}
+          disabled={selectedFlatRows.length < 1}
         >
           Approve
         </Button>
