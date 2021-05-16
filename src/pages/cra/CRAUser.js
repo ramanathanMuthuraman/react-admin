@@ -1,23 +1,22 @@
 import React from "react";
-import { Grid } from "@material-ui/core";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
 
 // components
-import Widget from "../../components/Widget/Widget";
-import PageTitle from "../../components/PageTitle/PageTitle";
-import AllCRA from "./AllCRA";
+import CRAListing from "./CRAListing";
+import CRAUpdate from "./CRAUpdate";
 
 export default function AlertManagement() {
+  let { path } = useRouteMatch();
   return (
     <>
-      <PageTitle title="CRA" />
-
-      <Grid container spacing={4}>
-        <Grid item xs={12}>
-          <Widget title="" upperTitle disableWidgetMenu>
-            <AllCRA createCRA={false} />
-          </Widget>
-        </Grid>
-      </Grid>
+      <Switch>
+        <Route exact path={path}>
+          <CRAListing />
+        </Route>
+        <Route path={`${path}/edit`}>
+          <CRAUpdate />
+        </Route>
+      </Switch>
     </>
   );
 }
