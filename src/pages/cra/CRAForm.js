@@ -269,6 +269,18 @@ const CRAForm = ({ initialValues, onSubmitForm, isEditable }) => {
                           value={values.sno}
                         />
                       </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          disabled={isEditable}
+                          id="status"
+                          name="status"
+                          label="Approval Status"
+                          fullWidth
+                          autoComplete="status"
+                          onChange={handleChange}
+                          value={values.status}
+                        />
+                      </Grid>
                     </Grid>
                     <div className={classes.addActionContainer}>
                       <Button

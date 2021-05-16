@@ -31,6 +31,7 @@ const CRAGeneration = (props) => {
     relavantPolicy: "",
     processNote: "",
     sno: "",
+    status: "",
   };
   const { enqueueSnackbar } = useSnackbar();
   const { setGlobalSpinner } = useLoader();

@@ -101,7 +101,6 @@ const columns = [
     Header: "S. No.",
     accessor: "sno",
   },
-  ,
   {
     Header: "Approval Status",
     accessor: "status",

@@ -65,8 +65,8 @@ const AllCRA = (props) => {
       url: CRA_URL,
     })
       .then(function (response = {}) {
-        setToBeAssignedData(response || []);
-        setTotalPageCount(1);
+        setToBeAssignedData(response.cras || []);
+        setTotalPageCount(response.totalPage || 1);
       })
       .catch(function () {
         enqueueSnackbar("Failed to fetch data", { variant: "error" });
