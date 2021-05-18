@@ -11,6 +11,7 @@ const urlList = {
   cra: "/CRA",
   craUpload: "/CRA/upload",
   craDownload: "/CRA/export",
+  craDepartment: "/CRA/department",
 };
 
 export { BASE_URL, urlList };

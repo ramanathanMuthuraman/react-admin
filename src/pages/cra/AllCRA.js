@@ -11,6 +11,7 @@ import useStyles from "./styles";
 import useLoader from "../../hooks/useLoader";
 import Table from "../../components/Table/Table.js";
 import { hooksCallback } from "../../components/Table/utils";
+import DepartmentFilter from "../filters/DepartmentFilter";
 
 import { PAGE_SIZE } from "../../constants/constants";
 
@@ -22,7 +23,10 @@ const AllCRA = (props) => {
   const { enqueueSnackbar } = useSnackbar();
   const [toBeAssignedData, setToBeAssignedData] = useState([]);
   const [totalPageCount, setTotalPageCount] = useState(0);
-
+  const [selectedDepartment, setSelectedDepartment] = useState("ALL");
+  const onDepartmentChange = (value) => {
+    setSelectedDepartment(value);
+  };
   const { selectedFlatRows, ...tableProps } = useTable(
     {
       columns,
@@ -59,7 +63,7 @@ const AllCRA = (props) => {
     setGlobalSpinner(true);
     const CRA_URL = `${urlList.cra}?pageNum=${
       state.pageIndex + 1
-    }&pageSize=${PAGE_SIZE}`;
+    }&pageSize=${PAGE_SIZE}&department=${selectedDepartment}`;
     service({
       method: "get",
       url: CRA_URL,
@@ -138,6 +142,9 @@ const AllCRA = (props) => {
           >
             Edit
           </Button>
+        </Grid>
+        <Grid item>
+          <DepartmentFilter onChange={onDepartmentChange} />
         </Grid>
       </Grid>
 
