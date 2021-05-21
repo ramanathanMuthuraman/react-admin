@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { Grid, Button } from "@material-ui/core";
 import { useTable, useRowSelect, usePagination } from "react-table";
@@ -63,7 +63,9 @@ const AllCRA = (props) => {
     setGlobalSpinner(true);
     const CRA_URL = `${urlList.cra}?pageNum=${
       state.pageIndex + 1
-    }&pageSize=${PAGE_SIZE}&department=${selectedDepartment}`;
+    }&pageSize=${PAGE_SIZE}&department=${encodeURIComponent(
+      selectedDepartment,
+    )}`;
     service({
       method: "get",
       url: CRA_URL,
@@ -79,6 +81,10 @@ const AllCRA = (props) => {
         setGlobalSpinner(false);
       });
   };
+
+  useEffect(() => {
+    getCRA();
+  }, [state.pageIndex, selectedDepartment]);
   // const assignUser = () => {
   //   setGlobalSpinner(true);
   //   service({
@@ -148,7 +154,7 @@ const AllCRA = (props) => {
         </Grid>
       </Grid>
 
-      <Table {...tableProps} onPageChangeCallback={getCRA} />
+      <Table {...tableProps} />
     </>
   );
 };
