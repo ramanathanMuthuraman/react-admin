@@ -18,7 +18,7 @@ const UserUpdate = (props) => {
     setGlobalSpinner(true);
 
     service({
-      method: "post",
+      method: "put",
       url: urlList.user,
       data: {
         ...values,
