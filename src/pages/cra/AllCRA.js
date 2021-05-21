@@ -133,7 +133,7 @@ const AllCRA = (props) => {
             </Button>
           </Grid>
         )}
-        <Grid>
+        <Grid item>
           <Button
             className={classes.editButton}
             variant="contained"
