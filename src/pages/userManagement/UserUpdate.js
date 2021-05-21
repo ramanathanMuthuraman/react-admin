@@ -1,6 +1,6 @@
 import React from "react";
 import { useSnackbar } from "notistack";
-import { useHistory } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import useLoader from "../../hooks/useLoader";
 
@@ -8,24 +8,15 @@ import { urlList } from "../../config/urlConfig";
 import service from "../../utils/serviceUtils";
 import UserForm from "./UserForm";
 
-const allModules = [
-  {
-    key: "AM",
-    value: "Alert Managment",
-  },
-  {
-    key: "CRA",
-    value: "Compliance Risk Assessment",
-  },
-];
-
-export default function UserGeneration() {
+const UserUpdate = (props) => {
+  const initialValues = props.location.state;
   const { enqueueSnackbar } = useSnackbar();
   const { setGlobalSpinner } = useLoader();
-  const history = useHistory();
+  const history = props.history;
 
   const saveData = (values) => {
     setGlobalSpinner(true);
+
     service({
       method: "post",
       url: urlList.user,
@@ -52,17 +43,7 @@ export default function UserGeneration() {
       });
   };
 
-  const initialValues = {
-    username: "",
-    firstname: "",
-    lastname: "",
-    middlename: "",
-    empId: "",
-    department: "",
-    mobileno: "",
-    email: "",
-    modules: allModules.map((item) => item.key),
-  };
-
   return <UserForm initialValues={initialValues} saveData={saveData} />;
-}
+};
+
+export default withRouter(UserUpdate);

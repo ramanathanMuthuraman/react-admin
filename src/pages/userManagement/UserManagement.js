@@ -8,6 +8,7 @@ import { useRouteMatch } from "react-router-dom";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import UserGeneration from "./UserGeneration.js";
 import UserListing from "./UserListing";
+import UserUpdate from "./UserUpdate";
 
 const UserManagement = (props) => {
   let { path, url } = useRouteMatch();
@@ -23,7 +24,7 @@ const UserManagement = (props) => {
           <UserGeneration />
         </Route>
         <Route path={`${path}/edit`}>
-          <>Hi</>
+          <UserUpdate />
         </Route>
       </Switch>
     </>

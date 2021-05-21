@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { Grid, Button } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { useSnackbar } from "notistack";
-import { useTable } from "react-table";
+import { useTable, useRowSelect } from "react-table";
 
 import { urlList } from "../../config/urlConfig";
 import service from "../../utils/serviceUtils";
@@ -13,8 +13,9 @@ import columns from "./columns";
 import Widget from "../../components/Widget/Widget";
 import Table from "../../components/Table/Table.js";
 import useLoader from "../../hooks/useLoader";
+import { hooksCallback } from "../../components/Table/utils";
 
-const UserListing = ({ url }) => {
+const UserListing = ({ url, history }) => {
   const { setGlobalSpinner } = useLoader();
   var classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -38,10 +39,14 @@ const UserListing = ({ url }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enqueueSnackbar]);
 
-  const tableProps = useTable({
-    columns,
-    data: userData,
-  });
+  const { selectedFlatRows, ...tableProps } = useTable(
+    {
+      columns,
+      data: userData,
+    },
+    useRowSelect,
+    hooksCallback,
+  );
   return (
     <>
       <Grid container spacing={4}>
@@ -52,13 +57,39 @@ const UserListing = ({ url }) => {
             bodyClass={classes.tableWidget}
             disableWidgetMenu
           >
-            <div className={classes.actionContainer}>
-              <Link className={classes.customLink} to={`${url}/create`}>
-                <Button variant="contained" color="primary" onClick={() => {}}>
-                  Add user
+            <Grid
+              container
+              spacing={4}
+              direction="row"
+              className={classes.actionContainer}
+            >
+              <Grid item>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => {
+                    history.push(`${url}/create`);
+                  }}
+                >
+                  Add
                 </Button>
-              </Link>
-            </div>
+              </Grid>
+              <Grid item>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  disabled={selectedFlatRows.length !== 1}
+                  onClick={() => {
+                    history.push({
+                      pathname: `${url}/edit`,
+                      state: { ...selectedFlatRows[0].values },
+                    });
+                  }}
+                >
+                  Edit
+                </Button>
+              </Grid>
+            </Grid>
             <Table {...tableProps} />
           </Widget>
         </Grid>
@@ -67,4 +98,4 @@ const UserListing = ({ url }) => {
   );
 };
 
-export default UserListing;
+export default withRouter(UserListing);
