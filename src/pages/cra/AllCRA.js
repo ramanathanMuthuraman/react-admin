@@ -84,6 +84,7 @@ const AllCRA = (props) => {
 
   useEffect(() => {
     getCRA();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.pageIndex, selectedDepartment]);
   // const assignUser = () => {
   //   setGlobalSpinner(true);
