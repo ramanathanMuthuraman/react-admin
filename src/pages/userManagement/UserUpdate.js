@@ -43,7 +43,9 @@ const UserUpdate = (props) => {
       });
   };
 
-  return <UserForm initialValues={initialValues} saveData={saveData} />;
+  return (
+    <UserForm initialValues={initialValues} saveData={saveData} isEditable />
+  );
 };
 
 export default withRouter(UserUpdate);

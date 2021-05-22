@@ -40,7 +40,11 @@ const MenuProps = {
   },
 };
 
-export default function UserGeneration({ initialValues, saveData }) {
+export default function UserGeneration({
+  initialValues,
+  saveData,
+  isEditable,
+}) {
   var classes = useStyles();
   const [modules, setModules] = useState(initialValues.modules);
 
@@ -72,6 +76,7 @@ export default function UserGeneration({ initialValues, saveData }) {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     required
+                    disabled={isEditable}
                     id="username"
                     name="username"
                     label="User name"
