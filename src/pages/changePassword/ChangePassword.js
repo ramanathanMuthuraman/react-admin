@@ -2,10 +2,15 @@ import React from "react";
 import { useFormik } from "formik";
 import { useSnackbar } from "notistack";
 import * as Yup from "yup";
+import { withRouter } from "react-router-dom";
 import { Grid, TextField, Button } from "@material-ui/core";
 
 import useLoader from "../../hooks/useLoader";
-import { useUserState } from "../../context/UserContext";
+import {
+  useUserState,
+  useUserDispatch,
+  signOut,
+} from "../../context/UserContext";
 
 import { urlList } from "../../config/urlConfig";
 import service from "../../utils/serviceUtils";
@@ -23,10 +28,10 @@ const schema = Yup.object().shape({
   ),
 });
 
-export default function ChangePassword() {
+const ChangePassword = (props) => {
   var classes = useStyles();
   const userProps = useUserState();
-
+  var userDispatch = useUserDispatch();
   const { user = {} } = userProps;
   const { setGlobalSpinner } = useLoader();
   const { enqueueSnackbar } = useSnackbar();
@@ -43,19 +48,19 @@ export default function ChangePassword() {
       },
     })
       .then(function () {
-        enqueueSnackbar("Password changed successfully", {
+        setGlobalSpinner(false);
+        enqueueSnackbar("Password changed successfully, please login again", {
           variant: "success",
           preventDuplicate: true,
         });
+        signOut(userDispatch, props.history);
       })
       .catch(function () {
+        setGlobalSpinner(false);
         enqueueSnackbar("Failed to change password", {
           variant: "error",
           preventDuplicate: true,
         });
-      })
-      .finally(() => {
-        setGlobalSpinner(false);
       });
   };
   const formik = useFormik({
@@ -135,4 +140,6 @@ export default function ChangePassword() {
       </Grid>
     </>
   );
-}
+};
+
+export default withRouter(ChangePassword);
