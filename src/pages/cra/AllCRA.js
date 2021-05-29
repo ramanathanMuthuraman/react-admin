@@ -149,16 +149,18 @@ const AllCRA = (props) => {
             Edit
           </Button>
         </Grid>
-        <Grid item>
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={selectedFlatRows.length < 1}
-            onClick={deleteCRA}
-          >
-            Delete
-          </Button>
-        </Grid>
+        {props.isCreateAllowed && (
+          <Grid item>
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={selectedFlatRows.length < 1}
+              onClick={deleteCRA}
+            >
+              Delete
+            </Button>
+          </Grid>
+        )}
         <Grid item>
           <DepartmentFilter onChange={onDepartmentChange} />
         </Grid>
