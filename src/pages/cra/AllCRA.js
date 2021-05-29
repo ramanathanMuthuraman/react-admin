@@ -86,30 +86,29 @@ const AllCRA = (props) => {
     getCRA();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.pageIndex, selectedDepartment]);
-  // const assignUser = () => {
-  //   setGlobalSpinner(true);
-  //   service({
-  //     method: "post",
-  //     url: `${urlList.alert}/${user.userName}/assign`,
-  //     data: selectedFlatRows.map((row) => row.values.id),
-  //   })
-  //     .then(function () {
-  //       enqueueSnackbar("Assigned successfully", {
-  //         variant: "success",
-  //         preventDuplicate: true,
-  //       });
-  //       getAlerts();
-  //     })
-  //     .catch(function () {
-  //       enqueueSnackbar("Failed to assign", {
-  //         variant: "error",
-  //         preventDuplicate: true,
-  //       });
-  //     })
-  //     .finally(() => {
-  //       setGlobalSpinner(true);
-  //     });
-  // };
+  const deleteCRA = () => {
+    setGlobalSpinner(true);
+    service({
+      method: "delete",
+      url: `${urlList.cra}`,
+      data: selectedFlatRows.map((row) => row.values.id),
+    })
+      .then(function () {
+        setGlobalSpinner(false);
+        enqueueSnackbar("Deleted successfully", {
+          variant: "success",
+          preventDuplicate: true,
+        });
+        getCRA();
+      })
+      .catch(function () {
+        setGlobalSpinner(false);
+        enqueueSnackbar("Failed to delete", {
+          variant: "error",
+          preventDuplicate: true,
+        });
+      });
+  };
 
   return (
     <>
@@ -148,6 +147,16 @@ const AllCRA = (props) => {
             }}
           >
             Edit
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={selectedFlatRows.length < 1}
+            onClick={deleteCRA}
+          >
+            Delete
           </Button>
         </Grid>
         <Grid item>
