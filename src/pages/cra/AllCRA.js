@@ -122,6 +122,7 @@ const AllCRA = (props) => {
             <Button
               variant="contained"
               color="primary"
+              disabled={selectedFlatRows.length !== 0}
               onClick={() => {
                 props.history.push({
                   pathname: "/app/cra/create",
