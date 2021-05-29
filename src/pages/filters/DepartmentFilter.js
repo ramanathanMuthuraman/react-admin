@@ -39,7 +39,7 @@ const CustomerIdFilter = ({ onChange, ...rest }) => {
 
   return (
     <FormControl className={classes.formControl}>
-      <InputLabel htmlFor="filter-by">Filter By Cusomer ID</InputLabel>
+      <InputLabel htmlFor="filter-by">Filter By Department</InputLabel>
       <Select
         value={selectedValue}
         onChange={onOptionSelect}
