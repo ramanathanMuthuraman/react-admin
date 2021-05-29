@@ -67,6 +67,7 @@ const UserListing = ({ url, history }) => {
                 <Button
                   variant="contained"
                   color="primary"
+                  disabled={selectedFlatRows.length !== 0}
                   onClick={() => {
                     history.push(`${url}/create`);
                   }}
