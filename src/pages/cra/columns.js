@@ -10,12 +10,12 @@ const columns = [
     accessor: "id",
   },
   {
-    Header: "Remarks",
-    accessor: "remarks",
-  },
-  {
     Header: "Circular Ref No",
     accessor: "circularRefNo",
+  },
+  {
+    Header: "Remarks",
+    accessor: "remarks",
   },
   {
     Header: "Circular Date",

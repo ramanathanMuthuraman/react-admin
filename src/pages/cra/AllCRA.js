@@ -34,7 +34,6 @@ const AllCRA = (props) => {
       initialState: {
         hiddenColumns: [
           "id",
-          "remarks",
           "circularDate",
           "regGuidelines",
           "breach",
