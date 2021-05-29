@@ -16,6 +16,8 @@ import useStyles from "./styles";
 
 import Widget from "../../components/Widget/Widget";
 import DateInput from "../../components/DateRender/DateInput";
+import { useUserState } from "../../context/UserContext";
+import Roles from "../../config/roles";
 
 import {
   CONTROL_EFFECTIVENESS,
@@ -26,6 +28,11 @@ import {
 
 const CRAForm = ({ initialValues, onSubmitForm, isEditable }) => {
   var classes = useStyles();
+  const userProps = useUserState();
+
+  const { user = {} } = userProps;
+  const role = user.roleName;
+  const isDisabled = role !== Roles.SUPER_ADMIN && isEditable;
   return (
     <>
       <Formik initialValues={initialValues} onSubmit={onSubmitForm}>
@@ -44,7 +51,7 @@ const CRAForm = ({ initialValues, onSubmitForm, isEditable }) => {
                     <Grid container spacing={6}>
                       <Grid item xs={12} sm={6}>
                         <TextField
-                          disabled={isEditable}
+                          disabled={isDisabled}
                           id="circularRefNo"
                           name="circularRefNo"
                           label="Circular Ref No"
@@ -56,7 +63,7 @@ const CRAForm = ({ initialValues, onSubmitForm, isEditable }) => {
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <DateInput
-                          disabled={isEditable}
+                          disabled={isDisabled}
                           id="circularDate"
                           name="circularDate"
                           label="Circular Date"
@@ -68,7 +75,7 @@ const CRAForm = ({ initialValues, onSubmitForm, isEditable }) => {
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <TextField
-                          disabled={isEditable}
+                          disabled={isDisabled}
                           id="regGuidelines"
                           name="regGuidelines"
                           label="Reg Guidelines"
@@ -81,7 +88,7 @@ const CRAForm = ({ initialValues, onSubmitForm, isEditable }) => {
 
                       <Grid item xs={12} sm={6}>
                         <TextField
-                          disabled={isEditable}
+                          disabled={isDisabled}
                           id="breach"
                           name="breach"
                           label="Breach"
@@ -93,7 +100,7 @@ const CRAForm = ({ initialValues, onSubmitForm, isEditable }) => {
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <TextField
-                          disabled={isEditable}
+                          disabled={isDisabled}
                           id="processImprovement"
                           name="processImprovement"
                           label="Process Improvement"
@@ -105,7 +112,7 @@ const CRAForm = ({ initialValues, onSubmitForm, isEditable }) => {
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <TextField
-                          disabled={isEditable}
+                          disabled={isDisabled}
                           id="prodName"
                           name="prodName"
                           label="Prod Name"
@@ -137,6 +144,7 @@ const CRAForm = ({ initialValues, onSubmitForm, isEditable }) => {
                             Control Effectiveness
                           </InputLabel>
                           <Select
+                            disabled={isDisabled}
                             labelId="controlEffectiveness-label"
                             fullWidth
                             id="controlEffectiveness"
@@ -161,6 +169,7 @@ const CRAForm = ({ initialValues, onSubmitForm, isEditable }) => {
                             Monitor Mechanism
                           </InputLabel>
                           <Select
+                            disabled={isDisabled}
                             labelId="monitorMechanism-label"
                             fullWidth
                             id="monitorMechanism"
@@ -183,6 +192,7 @@ const CRAForm = ({ initialValues, onSubmitForm, isEditable }) => {
                             Control Automation
                           </InputLabel>
                           <Select
+                            disabled={isDisabled}
                             labelId="controlAutomation-label"
                             fullWidth
                             id="controlAutomation"
@@ -205,6 +215,7 @@ const CRAForm = ({ initialValues, onSubmitForm, isEditable }) => {
                             Regulatory Impact
                           </InputLabel>
                           <Select
+                            disabled={isDisabled}
                             labelId="regulatoryImpact-label"
                             fullWidth
                             id="regulatoryImpact"
@@ -223,7 +234,7 @@ const CRAForm = ({ initialValues, onSubmitForm, isEditable }) => {
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <TextField
-                          disabled={isEditable}
+                          disabled={isDisabled}
                           id="policyDetails"
                           name="policyDetails"
                           label="Policy details"
@@ -235,7 +246,7 @@ const CRAForm = ({ initialValues, onSubmitForm, isEditable }) => {
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <TextField
-                          disabled={isEditable}
+                          disabled={isDisabled}
                           id="relavantPolicy"
                           name="relavantPolicy"
                           label="Relavant Policy"
@@ -247,7 +258,7 @@ const CRAForm = ({ initialValues, onSubmitForm, isEditable }) => {
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <TextField
-                          disabled={isEditable}
+                          disabled={isDisabled}
                           id="processNote"
                           name="processNote"
                           label="Process Note"
@@ -259,7 +270,7 @@ const CRAForm = ({ initialValues, onSubmitForm, isEditable }) => {
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <TextField
-                          disabled={isEditable}
+                          disabled={isDisabled}
                           id="sno"
                           name="sno"
                           label="S No"
@@ -271,7 +282,7 @@ const CRAForm = ({ initialValues, onSubmitForm, isEditable }) => {
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <TextField
-                          disabled={isEditable}
+                          disabled={isDisabled}
                           id="status"
                           name="status"
                           label="Approval Status"
