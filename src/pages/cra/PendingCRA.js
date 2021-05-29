@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Grid, Button } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 import { useTable, useRowSelect, usePagination } from "react-table";
 
 import { useSnackbar } from "notistack";
@@ -15,7 +16,7 @@ import { PAGE_SIZE } from "../../constants/constants";
 
 import columns from "./columns";
 
-export default function UnassignedAlerts({ user }) {
+const PendingCRA = (props) => {
   var classes = useStyles();
   const { setGlobalSpinner } = useLoader();
   const { enqueueSnackbar } = useSnackbar();
@@ -74,29 +75,29 @@ export default function UnassignedAlerts({ user }) {
         setGlobalSpinner(false);
       });
   };
-  const approveCRA = () => {
-    setGlobalSpinner(true);
-    service({
-      method: "post",
-      url: `${urlList.cra}/approve`,
-      data: selectedFlatRows.map((row) => row.values.id),
-    })
-      .then(function () {
-        setGlobalSpinner(false);
-        enqueueSnackbar("Approved successfully", {
-          variant: "success",
-          preventDuplicate: true,
-        });
-        getCRA();
-      })
-      .catch(function () {
-        setGlobalSpinner(false);
-        enqueueSnackbar("Failed to approve", {
-          variant: "error",
-          preventDuplicate: true,
-        });
-      });
-  };
+  // const approveCRA = () => {
+  //   setGlobalSpinner(true);
+  //   service({
+  //     method: "post",
+  //     url: `${urlList.cra}/approve`,
+  //     data: selectedFlatRows.map((row) => row.values.id),
+  //   })
+  //     .then(function () {
+  //       setGlobalSpinner(false);
+  //       enqueueSnackbar("Approved successfully", {
+  //         variant: "success",
+  //         preventDuplicate: true,
+  //       });
+  //       getCRA();
+  //     })
+  //     .catch(function () {
+  //       setGlobalSpinner(false);
+  //       enqueueSnackbar("Failed to approve", {
+  //         variant: "error",
+  //         preventDuplicate: true,
+  //       });
+  //     });
+  // };
 
   return (
     <>
@@ -110,8 +111,14 @@ export default function UnassignedAlerts({ user }) {
           variant="contained"
           color="primary"
           className={classes.editButton}
-          onClick={approveCRA}
-          disabled={selectedFlatRows.length < 1}
+          onClick={() => {
+            props.history.push({
+              pathname: "/app/cra/edit",
+              state: { ...selectedFlatRows[0].values },
+              action: "Approve",
+            });
+          }}
+          disabled={selectedFlatRows.length !== 1}
         >
           Approve
         </Button>
@@ -119,4 +126,6 @@ export default function UnassignedAlerts({ user }) {
       <Table {...tableProps} onPageChangeCallback={getCRA} />
     </>
   );
-}
+};
+
+export default withRouter(PendingCRA);

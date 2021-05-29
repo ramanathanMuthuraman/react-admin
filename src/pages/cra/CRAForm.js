@@ -26,7 +26,12 @@ import {
   CONTROL_AUTOMATION,
 } from "../../constants/constants";
 
-const CRAForm = ({ initialValues, onSubmitForm, isEditable }) => {
+const CRAForm = ({
+  initialValues,
+  onSubmitForm,
+  isEditable,
+  action = "Submit",
+}) => {
   var classes = useStyles();
   const userProps = useUserState();
 
@@ -302,7 +307,7 @@ const CRAForm = ({ initialValues, onSubmitForm, isEditable }) => {
                         type="submit"
                         onClick={handleSubmit}
                       >
-                        Submit
+                        {action}
                       </Button>
                     </div>
                   </form>

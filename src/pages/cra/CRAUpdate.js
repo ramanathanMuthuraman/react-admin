@@ -16,6 +16,7 @@ import CRAForm from "./CRAForm";
 
 const CRAUpdate = (props) => {
   const initialValues = props.location.state;
+  const action = props.location.action;
   const { enqueueSnackbar } = useSnackbar();
   const { setGlobalSpinner } = useLoader();
 
@@ -55,6 +56,7 @@ const CRAUpdate = (props) => {
         initialValues={initialValues}
         onSubmitForm={saveData}
         isEditable
+        action={action}
       />
     </>
   );
