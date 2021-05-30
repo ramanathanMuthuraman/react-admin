@@ -11,6 +11,7 @@ import { urlList } from "../../config/urlConfig";
 import service from "../../utils/serviceUtils";
 import { dateFormatter } from "../../utils/dateUtils";
 import PageTitle from "../../components/PageTitle/PageTitle";
+import { APPROVAL_STATUS } from "../../constants/constants";
 
 import CRAForm from "./CRAForm";
 
@@ -31,7 +32,7 @@ const CRAGeneration = (props) => {
     relavantPolicy: "",
     processNote: "",
     sno: "",
-    status: "",
+    status: APPROVAL_STATUS.YES,
   };
   const { enqueueSnackbar } = useSnackbar();
   const { setGlobalSpinner } = useLoader();

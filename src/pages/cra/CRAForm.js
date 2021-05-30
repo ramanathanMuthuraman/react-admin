@@ -24,6 +24,7 @@ import {
   MONITORING_MECHANISM,
   REGULATORY_IMPACT,
   CONTROL_AUTOMATION,
+  APPROVAL_STATUS,
 } from "../../constants/constants";
 
 const CRAForm = ({
@@ -286,16 +287,29 @@ const CRAForm = ({
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <TextField
-                          disabled={isDisabled}
-                          id="status"
-                          name="status"
-                          label="Approval Status"
-                          fullWidth
-                          autoComplete="status"
-                          onChange={handleChange}
-                          value={values.status}
-                        />
+                        <FormControl className={classes.moduleFormControl}>
+                          <InputLabel id="status-label">
+                            Approval Status
+                          </InputLabel>
+                          <Select
+                            disabled={isDisabled}
+                            labelId="status-label"
+                            fullWidth
+                            id="status"
+                            value={values.status}
+                            onChange={(e) => {
+                              handleChange("status")(e.target.value);
+                            }}
+                          >
+                            {Object.keys(APPROVAL_STATUS).map((key) => {
+                              return (
+                                <MenuItem key={key} value={key}>
+                                  {key}
+                                </MenuItem>
+                              );
+                            })}
+                          </Select>
+                        </FormControl>
                       </Grid>
                     </Grid>
                     <div className={classes.addActionContainer}>

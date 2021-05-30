@@ -26,6 +26,8 @@ const CONTROL_EFFECTIVENESS = {
   3: "Weak",
 };
 
+const APPROVAL_STATUS = { YES: "YES", NO: "NO" };
+
 export {
   NOOP,
   PAGE_SIZE,
@@ -33,4 +35,5 @@ export {
   MONITORING_MECHANISM,
   CONTROL_AUTOMATION,
   CONTROL_EFFECTIVENESS,
+  APPROVAL_STATUS,
 };
